@@ -86,6 +86,20 @@
                                     <action selector="pickAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PLR-Zp-Cqq"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmn-gN-9PC">
+                                <rect key="frame" x="330" y="60" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="Gsn-qD-PVu"/>
+                                    <constraint firstAttribute="height" constant="44" id="V6T-uJ-xPL"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="checkmark" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="confirmAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cVJ-vw-V7Z"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -93,9 +107,11 @@
                             <constraint firstItem="rk1-JT-klz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5GX-zn-cjQ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3bP-fQ-nvj" secondAttribute="trailing" constant="16" id="5b3-1K-slz"/>
                             <constraint firstItem="Cgy-f4-HPn" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GId-vm-0RC"/>
+                            <constraint firstItem="vmn-gN-9PC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="HsR-te-poP"/>
                             <constraint firstItem="rk1-JT-klz" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ILe-zw-bcW"/>
                             <constraint firstItem="Cgy-f4-HPn" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="M9W-5C-Ngs"/>
                             <constraint firstItem="Cgy-f4-HPn" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Tdo-BQ-KeQ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="vmn-gN-9PC" secondAttribute="trailing" constant="16" id="VQB-UL-sfe"/>
                             <constraint firstItem="rk1-JT-klz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Y8b-a2-S0C"/>
                             <constraint firstItem="Cgy-f4-HPn" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="b6X-OJ-9rz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="3bP-fQ-nvj" secondAttribute="bottom" constant="16" id="obV-En-NFa"/>
@@ -115,6 +131,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="photo.on.rectangle" catalog="system" width="128" height="96"/>
     </resources>
 </document>

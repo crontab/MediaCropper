@@ -32,32 +32,6 @@ enum PickerMediaType: String, CaseIterable {
 }
 
 
-// MARK: - Image view with intrinsic scaling
-
-class ScalableImageView: UIImageView {
-
-	fileprivate var minSize: CGSize = .zero { // scale to the minimum that fills this rectangle
-		didSet {
-			if minSize != oldValue {
-				invalidateIntrinsicContentSize()
-			}
-		}
-	}
-
-	override var intrinsicContentSize: CGSize {
-		guard minSize.width != 0, let image = image, image.size.width != 0 else {
-			return super.intrinsicContentSize
-		}
-		let newHeight = image.size.height * minSize.width / image.size.width
-		if newHeight < minSize.height {
-			let newWidth = image.size.width * minSize.height / image.size.height
-			return CGSize(width: newWidth, height: minSize.height)
-		}
-		return CGSize(width: minSize.width, height: newHeight)
-	}
-}
-
-
 // MARK: - Designable view with a frame
 
 @IBDesignable
@@ -74,6 +48,36 @@ class BorderedView: UIView {
 		didSet {
 			layer.borderColor = borderColor?.cgColor
 		}
+	}
+}
+
+
+// MARK: - Image view with intrinsic scaling
+
+class ScalableImageView: UIImageView {
+
+	fileprivate var minSize: CGSize = .zero { // scale to the minimum that fills this rectangle
+		didSet {
+			if minSize != oldValue {
+				invalidateIntrinsicContentSize()
+			}
+		}
+	}
+
+
+	var scaleFactor: CGFloat { (image?.size.height ?? 0) / intrinsicContentSize.height }
+
+
+	override var intrinsicContentSize: CGSize {
+		guard minSize.width != 0, let image = image, image.size.width != 0 else {
+			return super.intrinsicContentSize
+		}
+		let newHeight = image.size.height * minSize.width / image.size.width
+		if newHeight < minSize.height {
+			let newWidth = image.size.width * minSize.height / image.size.height
+			return CGSize(width: newWidth, height: minSize.height)
+		}
+		return CGSize(width: minSize.width, height: newHeight)
 	}
 }
 
@@ -104,7 +108,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 		scrollView.delegate = self
 
-		cropRatio = config.cropRatio
+		cropViewHeight.constant = cropView.frame.width * config.cropRatio
 
 		pickAction(nil)
 	}
@@ -117,36 +121,37 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	}
 
 
-	var cropRatio: CGFloat {
-		get { cropViewHeight.constant / cropView.frame.width }
-		set { cropViewHeight.constant = cropView.frame.width * newValue }
-	}
-
-
-	private func setImage(_ image: UIImage) {
+	private func setImage(_ image: UIImage?) {
 		imageView.image = image
 		scrollView.zoomScale = 1
 		scrollView.layoutIfNeeded()
-		scrollView.contentOffset = CGPoint(x: (scrollView.contentSize.width - scrollView.frame.width) / 2, y: (scrollView.contentSize.height - scrollView.frame.height) / 2)
+		scrollView.contentOffset = image == nil ? .zero : CGPoint(x: (scrollView.contentSize.width - scrollView.frame.width) / 2, y: (scrollView.contentSize.height - scrollView.frame.height) / 2)
+	}
+
+
+	private var effectiveCropFrame: CGRect {
+		cropView.frame.offset(by: scrollView.contentOffset).scaled(by: imageView.scaleFactor / scrollView.zoomScale)
+	}
+
+
+	private func crop() -> UIImage? {
+		imageView.image?.cropped(at: effectiveCropFrame)
+	}
+
+
+	@IBAction func confirmAction(_ sender: Any) {
+		setImage(crop())
 	}
 
 
 	func viewForZooming(in scrollView: UIScrollView) -> UIView? { imageView }
-
-	func scrollViewDidScroll(_ scrollView: UIScrollView) {
-		print("Scroll:", scrollView.contentOffset.y)
-	}
-
-	func scrollViewDidZoom(_ scrollView: UIScrollView) {
-		print("Zoom:", scrollView.zoomScale)
-		print("Content size:", scrollView.contentSize.height);
-	}
 }
 
 
 // MARK: - Image picker extension
 
 extension MediaCropperViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
 
 	@IBAction private func pickAction(_ sender: Any?) {
 		let picker = UIImagePickerController()
@@ -155,6 +160,7 @@ extension MediaCropperViewController: UIImagePickerControllerDelegate, UINavigat
 		picker.delegate = self
 		present(picker, animated: true)
 	}
+
 
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 		picker.dismiss(animated: true)
