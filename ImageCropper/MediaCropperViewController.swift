@@ -84,7 +84,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 	struct Config {
 		var types: [PickerMediaType] = [.image]
-		var cropRatio: CGFloat = 1 // square
+		var cropRatio: CGFloat = 0.5 // square
 	}
 
 
@@ -94,6 +94,9 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	@IBOutlet private var cropViewHeight: NSLayoutConstraint!
 
 	private var config = Config()
+
+
+	override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
 
 
 	override func viewDidLoad() {
@@ -120,7 +123,24 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	}
 
 
+	private func setImage(_ image: UIImage) {
+		imageView.image = image
+		scrollView.zoomScale = 1
+		scrollView.layoutIfNeeded()
+		scrollView.contentOffset = CGPoint(x: (scrollView.contentSize.width - scrollView.frame.width) / 2, y: (scrollView.contentSize.height - scrollView.frame.height) / 2)
+	}
+
+
 	func viewForZooming(in scrollView: UIScrollView) -> UIView? { imageView }
+
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		print("Scroll:", scrollView.contentOffset.y)
+	}
+
+	func scrollViewDidZoom(_ scrollView: UIScrollView) {
+		print("Zoom:", scrollView.zoomScale)
+		print("Content size:", scrollView.contentSize.height);
+	}
 }
 
 
@@ -150,9 +170,5 @@ extension MediaCropperViewController: UIImagePickerControllerDelegate, UINavigat
 					break
 			}
 		}
-	}
-
-	private func setImage(_ image: UIImage) {
-		imageView.image = image
 	}
 }
