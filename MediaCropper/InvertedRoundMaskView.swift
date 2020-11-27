@@ -1,6 +1,6 @@
 //
 //  InvertedRoundMaskView.swift
-//  ImageCropper
+//  MediaCropper
 //
 //  Created by Hovik Melikyan on 27/11/2020.
 //

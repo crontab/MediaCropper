@@ -1,6 +1,6 @@
 //
 //  GeometryUtils.swift
-//  ImageCropper
+//  MediaCropper
 //
 //  Created by Hovik Melikyan on 26/11/2020.
 //
