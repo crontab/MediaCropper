@@ -21,7 +21,6 @@ class InvertedRoundMaskView: UIView {
 		let path = UIBezierPath(rect: bounds)
 		let maskPath = enableMask ? UIBezierPath(roundedRect: bounds, cornerRadius: bounds.width / 2) : path
 		path.append(maskPath)
-		path.usesEvenOddFillRule = true
 		let maskLayer = CAShapeLayer()
 		maskLayer.path = path.cgPath
 		maskLayer.fillRule = .evenOdd
