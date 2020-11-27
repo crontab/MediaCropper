@@ -32,22 +32,26 @@ enum PickerMediaType: String, CaseIterable {
 }
 
 
-// MARK: - Designable view with a frame
+// MARK: - Inverted round mask layer for selfies
 
 @IBDesignable
-class BorderedView: UIView {
+class RoundMaskView: UIView {
 
 	@IBInspectable
-	var borderWidth: CGFloat {
-		get { return layer.borderWidth }
-		set { layer.borderWidth = newValue }
+	var enableMask: Bool = false {
+		didSet { if enableMask != oldValue { setNeedsLayout() } }
 	}
 
-	@IBInspectable
-	var borderColor: UIColor? {
-		didSet {
-			layer.borderColor = borderColor?.cgColor
-		}
+	override func layoutSubviews() {
+		super.layoutSubviews()
+		let path = UIBezierPath(rect: bounds)
+		let maskPath = enableMask ? UIBezierPath(roundedRect: bounds, cornerRadius: bounds.width / 2) : path
+		path.append(maskPath)
+		path.usesEvenOddFillRule = true
+		let maskLayer = CAShapeLayer()
+		maskLayer.path = path.cgPath
+		maskLayer.fillRule = .evenOdd
+		layer.mask = maskLayer
 	}
 }
 
@@ -88,13 +92,14 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 	struct Config {
 		var types: [PickerMediaType] = [.image]
-		var cropRatio: CGFloat = 0.5 // square
+		var cropRatio: CGFloat = 0.5 // 1 for square
+		var roundCrop: Bool = true
 	}
 
 
 	@IBOutlet private var scrollView: UIScrollView!
 	@IBOutlet private var imageView: ScalableImageView!
-	@IBOutlet private var cropView: BorderedView!
+	@IBOutlet private var cropView: RoundMaskView!
 	@IBOutlet private var cropViewHeight: NSLayoutConstraint!
 
 	private var config = Config()
@@ -109,6 +114,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.delegate = self
 
 		cropViewHeight.constant = cropView.frame.width * config.cropRatio
+		cropView.enableMask = config.roundCrop
 
 		pickAction(nil)
 	}
