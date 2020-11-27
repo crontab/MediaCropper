@@ -28,6 +28,21 @@ extension CGRect {
 }
 
 
+extension CGSize {
+
+	var absed: CGSize { .init(width: abs(width), height: abs(height)) }
+
+	func circumscribed(on rect: CGSize) -> CGSize {
+		let newHeight = height * rect.width / width
+		if newHeight < rect.height {
+			let newWidth = width * rect.height / height
+			return CGSize(width: newWidth, height: rect.height)
+		}
+		return CGSize(width: rect.width, height: newHeight)
+	}
+}
+
+
 extension UIImage {
 
 	func cropped(at cropFrame: CGRect) -> UIImage? {

@@ -17,6 +17,7 @@
 		36FF0BB52571587200481A14 /* ScalableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FF0BB42571587200481A14 /* ScalableImageView.swift */; };
 		36FF0BB82571598400481A14 /* InvertedRoundMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FF0BB72571598400481A14 /* InvertedRoundMaskView.swift */; };
 		36FF0BBB257159DC00481A14 /* PickerMediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FF0BBA257159DC00481A14 /* PickerMediaType.swift */; };
+		36FF0BC525715F3A00481A14 /* ScalableVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FF0BC425715F3A00481A14 /* ScalableVideoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		36FF0BB42571587200481A14 /* ScalableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalableImageView.swift; sourceTree = "<group>"; };
 		36FF0BB72571598400481A14 /* InvertedRoundMaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvertedRoundMaskView.swift; sourceTree = "<group>"; };
 		36FF0BBA257159DC00481A14 /* PickerMediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerMediaType.swift; sourceTree = "<group>"; };
+		36FF0BC425715F3A00481A14 /* ScalableVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalableVideoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				3636889625701874006F3FB2 /* GeometryUtils.swift */,
 				36FF0BBA257159DC00481A14 /* PickerMediaType.swift */,
 				36FF0BB42571587200481A14 /* ScalableImageView.swift */,
+				36FF0BC425715F3A00481A14 /* ScalableVideoView.swift */,
 				36FF0BB72571598400481A14 /* InvertedRoundMaskView.swift */,
 				36368880256FE8AF006F3FB2 /* MediaCropperViewController.swift */,
 				36368882256FE8AF006F3FB2 /* Main.storyboard */,
@@ -152,6 +155,7 @@
 				3636889725701874006F3FB2 /* GeometryUtils.swift in Sources */,
 				36FF0BBB257159DC00481A14 /* PickerMediaType.swift in Sources */,
 				36368881256FE8AF006F3FB2 /* MediaCropperViewController.swift in Sources */,
+				36FF0BC525715F3A00481A14 /* ScalableVideoView.swift in Sources */,
 				3636887D256FE8AE006F3FB2 /* AppDelegate.swift in Sources */,
 				3636887F256FE8AF006F3FB2 /* SceneDelegate.swift in Sources */,
 				36FF0BB82571598400481A14 /* InvertedRoundMaskView.swift in Sources */,

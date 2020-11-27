@@ -14,7 +14,7 @@ import UIKit
 class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 	struct Config {
-		var types: [PickerMediaType] = [.image]
+		var types: [PickerMediaType] = [.image, .video]
 		var cropRatio: CGFloat = 0.5 // 1 for square
 		var roundCrop: Bool = true
 	}
@@ -22,6 +22,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 	@IBOutlet private var scrollView: UIScrollView!
 	@IBOutlet private var imageView: ScalableImageView!
+	@IBOutlet private var videoView: ScalableVideoView!
 	@IBOutlet private var cropView: InvertedRoundMaskView!
 	@IBOutlet private var cropViewHeight: NSLayoutConstraint!
 
@@ -39,22 +40,49 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 		cropViewHeight.constant = cropView.frame.width * config.cropRatio
 		cropView.enableMask = config.roundCrop
 
+		imageView.isHidden = true
+		videoView.isHidden = true
+
 		pickAction(nil)
 	}
 
 
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		imageView.minSize = cropView.frame.size
+		imageView.cropSize = cropView.frame.size
+		videoView.cropSize = cropView.frame.size
 		scrollView.contentInset = .init(top: max(0, cropView.frame.minY), left: 0, bottom: max(0, scrollView.frame.height - cropView.frame.maxY), right: 0)
 	}
 
 
-	private func setImage(_ image: UIImage?) {
+	func setImage(_ image: UIImage?) {
+		videoView.videoURL = nil
 		imageView.image = image
+		showHideViews()
+		resetScrollView()
+	}
+
+
+	func setVideoURL(_ videoURL: URL) {
+		videoView.videoURL = videoURL
+		imageView.image = nil
+		showHideViews()
+		videoView.player?.play()
+		resetScrollView()
+	}
+
+
+	private func showHideViews() {
+		videoView.isHidden = videoView.videoURL == nil
+		imageView.isHidden = imageView.image == nil
+	}
+
+
+	private func resetScrollView() {
 		scrollView.zoomScale = 1
 		scrollView.layoutIfNeeded()
-		scrollView.contentOffset = image == nil ? .zero : CGPoint(x: (scrollView.contentSize.width - scrollView.frame.width) / 2, y: (scrollView.contentSize.height - scrollView.frame.height) / 2)
+		scrollView.contentOffset = imageView.isHidden && videoView.isHidden ? .zero :
+			CGPoint(x: (scrollView.contentSize.width - scrollView.frame.width) / 2, y: (scrollView.contentSize.height - scrollView.frame.height) / 2)
 	}
 
 
@@ -63,17 +91,19 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	}
 
 
-	private func crop() -> UIImage? {
-		imageView.image?.cropped(at: effectiveCropFrame)
-	}
-
-
 	@IBAction func confirmAction(_ sender: Any) {
-		setImage(crop())
+		if !imageView.isHidden {
+			setImage(imageView.image?.cropped(at: effectiveCropFrame))
+		}
+		else {
+			// TODO:
+		}
 	}
 
 
-	func viewForZooming(in scrollView: UIScrollView) -> UIView? { imageView }
+	func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+		!imageView.isHidden ? imageView : !videoView.isHidden ? videoView : nil
+	}
 }
 
 
@@ -94,14 +124,12 @@ extension MediaCropperViewController: UIImagePickerControllerDelegate, UINavigat
 		picker.dismiss(animated: true)
 		if let url = (info[.mediaURL] ?? info[.imageURL]) as? URL, let type = PickerMediaType.asSuperclassOf(rawValue: info[.mediaType] as? String) {
 			switch type {
-
 				case .image:
 					if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
 						setImage(image)
 					}
-
 				case .video:
-					break
+					setVideoURL(url)
 			}
 		}
 	}

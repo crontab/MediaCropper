@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Image references" minToolsVersion="12.0"/>
@@ -13,30 +13,37 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MediaCropperViewController" customModule="MediaCropper" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" maximumZoomScale="5" translatesAutoresizingMaskIntoConstraints="NO" id="Cgy-f4-HPn">
-                                <rect key="frame" x="0.0" y="44" width="390" height="766"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="390" placeholderIntrinsicHeight="766" translatesAutoresizingMaskIntoConstraints="NO" id="go6-ZE-hiK" customClass="ScalableImageView" customModule="MediaCropper" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="766"/>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="568" translatesAutoresizingMaskIntoConstraints="NO" id="go6-ZE-hiK" customClass="ScalableImageView" customModule="MediaCropper" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                     </imageView>
+                                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="230" placeholderIntrinsicHeight="568" translatesAutoresizingMaskIntoConstraints="NO" id="FWD-JO-tZ9" customClass="ScalableVideoView" customModule="MediaCropper" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="go6-ZE-hiK" firstAttribute="bottom" secondItem="kxp-ib-ART" secondAttribute="bottom" id="0lw-YX-JxX"/>
+                                    <constraint firstItem="kxp-ib-ART" firstAttribute="trailing" secondItem="FWD-JO-tZ9" secondAttribute="trailing" id="7v0-0X-2Ol"/>
                                     <constraint firstItem="go6-ZE-hiK" firstAttribute="top" secondItem="kxp-ib-ART" secondAttribute="top" id="BoH-NF-HYi"/>
                                     <constraint firstItem="go6-ZE-hiK" firstAttribute="trailing" secondItem="kxp-ib-ART" secondAttribute="trailing" id="gKi-dJ-m7u"/>
+                                    <constraint firstItem="kxp-ib-ART" firstAttribute="bottom" secondItem="FWD-JO-tZ9" secondAttribute="bottom" id="h3r-Jf-C34"/>
                                     <constraint firstItem="go6-ZE-hiK" firstAttribute="leading" secondItem="kxp-ib-ART" secondAttribute="leading" id="jqg-Nk-ei8"/>
+                                    <constraint firstItem="FWD-JO-tZ9" firstAttribute="leading" secondItem="kxp-ib-ART" secondAttribute="leading" id="ujh-Cx-uAh"/>
+                                    <constraint firstItem="FWD-JO-tZ9" firstAttribute="top" secondItem="kxp-ib-ART" secondAttribute="top" id="vGs-1v-n8M"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="kxp-ib-ART"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="xgb-zr-wyw"/>
                             </scrollView>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rk1-JT-klz">
-                                <rect key="frame" x="0.0" y="44" width="390" height="766"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnA-4z-bwr" customClass="InvertedRoundMaskView" customModule="MediaCropper" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="285.66666666666669" width="390" height="195"/>
+                                        <rect key="frame" x="0.0" y="186.5" width="320" height="195"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.45000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="195" id="iDm-ni-XPq"/>
@@ -46,11 +53,11 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qhM-jM-K81">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="285.66666666666669"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="186.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.45000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FYb-9e-9wu">
-                                        <rect key="frame" x="0.0" y="480.66666666666663" width="390" height="285.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="381.5" width="320" height="186.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.45000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -69,7 +76,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3bP-fQ-nvj">
-                                <rect key="frame" x="330" y="750" width="44" height="44"/>
+                                <rect key="frame" x="260" y="508" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="dAH-Rw-Pky"/>
                                     <constraint firstAttribute="width" constant="44" id="gRg-tb-bj1"/>
@@ -83,7 +90,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmn-gN-9PC">
-                                <rect key="frame" x="330" y="60" width="44" height="44"/>
+                                <rect key="frame" x="260" y="16" width="44" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="Gsn-qD-PVu"/>
                                     <constraint firstAttribute="height" constant="44" id="V6T-uJ-xPL"/>
@@ -119,11 +126,12 @@
                         <outlet property="cropViewHeight" destination="iDm-ni-XPq" id="M2T-mg-des"/>
                         <outlet property="imageView" destination="go6-ZE-hiK" id="ZRM-BA-Td1"/>
                         <outlet property="scrollView" destination="Cgy-f4-HPn" id="Tk3-db-W8a"/>
+                        <outlet property="videoView" destination="FWD-JO-tZ9" id="dNn-tp-sWK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-146.15384615384616" y="-27.014218009478672"/>
+            <point key="canvasLocation" x="-146.25" y="-27.464788732394368"/>
         </scene>
     </scenes>
     <resources>
