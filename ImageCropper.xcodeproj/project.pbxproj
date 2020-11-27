@@ -13,7 +13,10 @@
 		36368884256FE8AF006F3FB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36368882256FE8AF006F3FB2 /* Main.storyboard */; };
 		36368886256FE8B1006F3FB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36368885256FE8B1006F3FB2 /* Assets.xcassets */; };
 		36368889256FE8B1006F3FB2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36368887256FE8B1006F3FB2 /* LaunchScreen.storyboard */; };
-		3636889725701874006F3FB2 /* MediaUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636889625701874006F3FB2 /* MediaUtils.swift */; };
+		3636889725701874006F3FB2 /* GeometryUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636889625701874006F3FB2 /* GeometryUtils.swift */; };
+		36FF0BB52571587200481A14 /* ScalableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FF0BB42571587200481A14 /* ScalableImageView.swift */; };
+		36FF0BB82571598400481A14 /* InvertedRoundMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FF0BB72571598400481A14 /* InvertedRoundMaskView.swift */; };
+		36FF0BBB257159DC00481A14 /* PickerMediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FF0BBA257159DC00481A14 /* PickerMediaType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +28,10 @@
 		36368885256FE8B1006F3FB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		36368888256FE8B1006F3FB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3636888A256FE8B1006F3FB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3636889625701874006F3FB2 /* MediaUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaUtils.swift; sourceTree = "<group>"; };
+		3636889625701874006F3FB2 /* GeometryUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryUtils.swift; sourceTree = "<group>"; };
+		36FF0BB42571587200481A14 /* ScalableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalableImageView.swift; sourceTree = "<group>"; };
+		36FF0BB72571598400481A14 /* InvertedRoundMaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvertedRoundMaskView.swift; sourceTree = "<group>"; };
+		36FF0BBA257159DC00481A14 /* PickerMediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerMediaType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,11 +64,14 @@
 		3636887B256FE8AE006F3FB2 /* ImageCropper */ = {
 			isa = PBXGroup;
 			children = (
-				3636887C256FE8AE006F3FB2 /* AppDelegate.swift */,
-				3636887E256FE8AF006F3FB2 /* SceneDelegate.swift */,
-				3636889625701874006F3FB2 /* MediaUtils.swift */,
+				3636889625701874006F3FB2 /* GeometryUtils.swift */,
+				36FF0BBA257159DC00481A14 /* PickerMediaType.swift */,
+				36FF0BB42571587200481A14 /* ScalableImageView.swift */,
+				36FF0BB72571598400481A14 /* InvertedRoundMaskView.swift */,
 				36368880256FE8AF006F3FB2 /* MediaCropperViewController.swift */,
 				36368882256FE8AF006F3FB2 /* Main.storyboard */,
+				3636887E256FE8AF006F3FB2 /* SceneDelegate.swift */,
+				3636887C256FE8AE006F3FB2 /* AppDelegate.swift */,
 				36368885256FE8B1006F3FB2 /* Assets.xcassets */,
 				36368887256FE8B1006F3FB2 /* LaunchScreen.storyboard */,
 				3636888A256FE8B1006F3FB2 /* Info.plist */,
@@ -140,10 +149,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3636889725701874006F3FB2 /* MediaUtils.swift in Sources */,
+				3636889725701874006F3FB2 /* GeometryUtils.swift in Sources */,
+				36FF0BBB257159DC00481A14 /* PickerMediaType.swift in Sources */,
 				36368881256FE8AF006F3FB2 /* MediaCropperViewController.swift in Sources */,
 				3636887D256FE8AE006F3FB2 /* AppDelegate.swift in Sources */,
 				3636887F256FE8AF006F3FB2 /* SceneDelegate.swift in Sources */,
+				36FF0BB82571598400481A14 /* InvertedRoundMaskView.swift in Sources */,
+				36FF0BB52571587200481A14 /* ScalableImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

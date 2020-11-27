@@ -6,84 +6,7 @@
 //
 
 import UIKit
-import CoreServices // for UTTypeConformsTo
 
-
-// MARK: - Media types
-
-enum PickerMediaType: String, CaseIterable {
-	case video = "public.movie"
-	case image = "public.image"
-
-	static func asSuperclassOf(rawValue: String?) -> Self? {
-		guard let rawValue = rawValue else {
-			return nil
-		}
-		if let result = self.init(rawValue: rawValue) {
-			return result
-		}
-		for x in allCases {
-			if UTTypeConformsTo(rawValue as CFString, x.rawValue as CFString) {
-				return x
-			}
-		}
-		return nil
-	}
-}
-
-
-// MARK: - Inverted round mask layer for selfies
-
-@IBDesignable
-class RoundMaskView: UIView {
-
-	@IBInspectable
-	var enableMask: Bool = false {
-		didSet { if enableMask != oldValue { setNeedsLayout() } }
-	}
-
-	override func layoutSubviews() {
-		super.layoutSubviews()
-		let path = UIBezierPath(rect: bounds)
-		let maskPath = enableMask ? UIBezierPath(roundedRect: bounds, cornerRadius: bounds.width / 2) : path
-		path.append(maskPath)
-		path.usesEvenOddFillRule = true
-		let maskLayer = CAShapeLayer()
-		maskLayer.path = path.cgPath
-		maskLayer.fillRule = .evenOdd
-		layer.mask = maskLayer
-	}
-}
-
-
-// MARK: - Image view with intrinsic scaling
-
-class ScalableImageView: UIImageView {
-
-	fileprivate var minSize: CGSize = .zero { // scale to the minimum that fills this rectangle
-		didSet {
-			if minSize != oldValue {
-				invalidateIntrinsicContentSize()
-			}
-		}
-	}
-
-
-	var scaleFactor: CGFloat { (image?.size.height ?? 0) / intrinsicContentSize.height }
-
-
-	override var intrinsicContentSize: CGSize {
-		guard minSize.width != 0, let image = image, image.size.width != 0 else {
-			return super.intrinsicContentSize
-		}
-		let newHeight = image.size.height * minSize.width / image.size.width
-		if newHeight < minSize.height {
-			let newWidth = image.size.width * minSize.height / image.size.height
-			return CGSize(width: newWidth, height: minSize.height)
-		}
-		return CGSize(width: minSize.width, height: newHeight)
-	}
-}
 
 
 // MARK: - View controller
@@ -99,7 +22,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 	@IBOutlet private var scrollView: UIScrollView!
 	@IBOutlet private var imageView: ScalableImageView!
-	@IBOutlet private var cropView: RoundMaskView!
+	@IBOutlet private var cropView: InvertedRoundMaskView!
 	@IBOutlet private var cropViewHeight: NSLayoutConstraint!
 
 	private var config = Config()
@@ -157,7 +80,6 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 // MARK: - Image picker extension
 
 extension MediaCropperViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
 
 	@IBAction private func pickAction(_ sender: Any?) {
 		let picker = UIImagePickerController()

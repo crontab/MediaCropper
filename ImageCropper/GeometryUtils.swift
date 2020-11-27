@@ -1,5 +1,5 @@
 //
-//  MediaUtils.swift
+//  GeometryUtils.swift
 //  ImageCropper
 //
 //  Created by Hovik Melikyan on 26/11/2020.
