@@ -67,7 +67,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 		videoView.videoURL = videoURL
 		imageView.image = nil
 		showHideViews()
-		videoView.player?.play()
+		videoView.play()
 		resetScrollView()
 	}
 

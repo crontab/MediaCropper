@@ -12,14 +12,25 @@ import AVFoundation
 class ScalableVideoView: UIView {
 
 	var videoURL: URL? {
-		get { (player?.currentItem?.asset as? AVURLAsset)?.url }
+		get { (queuePlayer.currentItem?.asset as? AVURLAsset)?.url }
 		set { setVideoURL(newValue) }
 	}
 
 
-	private(set) var player: AVPlayer? {
-		get { videoLayer.player }
-		set { videoLayer.player = newValue }
+	func play() {
+		if queuePlayer.currentItem != nil {
+			queuePlayer.play()
+		}
+	}
+
+
+	func pause() {
+		queuePlayer.pause()
+	}
+
+
+	var isPlaying: Bool {
+		queuePlayer.currentItem != nil && queuePlayer.rate > 0
 	}
 
 
@@ -46,7 +57,9 @@ class ScalableVideoView: UIView {
 	}
 
 
-	private var videoLayer = AVPlayerLayer()
+	private var videoLayer = AVPlayerLayer(player: AVQueuePlayer())
+	private var queuePlayer: AVQueuePlayer { videoLayer.player as! AVQueuePlayer }
+	private var looper: AVPlayerLooper?
 
 
 	open override func layoutSubviews() {
@@ -62,10 +75,11 @@ class ScalableVideoView: UIView {
 
 	private func setVideoURL(_ newValue: URL?) {
 		if newValue != videoURL {
-			player?.pause()
-			player = nil
+			looper = nil
+			queuePlayer.removeAllItems()
 			if let url = newValue {
-				player = AVPlayer(url: url)
+				queuePlayer.insert(AVPlayerItem(url: url), after: nil)
+				looper = AVPlayerLooper(player: queuePlayer, templateItem: queuePlayer.currentItem!)
 			}
 			invalidateIntrinsicContentSize()
 		}
@@ -73,7 +87,7 @@ class ScalableVideoView: UIView {
 
 
 	private var naturalSize: CGSize? {
-		guard let track = player?.currentItem?.asset.tracks(withMediaType: .video).first else {
+		guard let track = queuePlayer.currentItem?.asset.tracks(withMediaType: .video).first else {
 			return nil
 		}
 		return track.naturalSize.applying(track.preferredTransform).absed
