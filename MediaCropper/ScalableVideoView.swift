@@ -13,9 +13,24 @@ import AVFoundation
 
 class ScalableVideoView: UIView, ScalableViewProtocol {
 
-	var videoURL: URL? {
-		get { (queuePlayer.currentItem?.asset as? AVURLAsset)?.url }
-		set { setVideoURL(newValue) }
+	var tempURL: URL? { videoURL }
+	func clear() { setTempVideoURL(nil) }
+	var isEmpty: Bool { videoURL == nil }
+
+
+	func setTempVideoURL(_ tempURL: URL?) {
+		if let tempURL = self.tempURL {
+			try? FileManager.default.removeItem(at: tempURL)
+		}
+		if tempURL != videoURL {
+			looper = nil
+			queuePlayer.removeAllItems()
+			if let url = tempURL {
+				queuePlayer.insert(AVPlayerItem(url: url), after: nil)
+				looper = AVPlayerLooper(player: queuePlayer, templateItem: queuePlayer.currentItem!)
+			}
+			invalidateIntrinsicContentSize()
+		}
 	}
 
 
@@ -60,8 +75,10 @@ class ScalableVideoView: UIView, ScalableViewProtocol {
 
 
 	private var videoLayer = AVPlayerLayer(player: AVQueuePlayer())
-	private var queuePlayer: AVQueuePlayer { videoLayer.player as! AVQueuePlayer }
 	private var looper: AVPlayerLooper?
+
+	private var queuePlayer: AVQueuePlayer { videoLayer.player as! AVQueuePlayer }
+	private var videoURL: URL? { (queuePlayer.currentItem?.asset as? AVURLAsset)?.url }
 
 
 	open override func layoutSubviews() {
@@ -71,19 +88,6 @@ class ScalableVideoView: UIView, ScalableViewProtocol {
 			CATransaction.setValue(true, forKey: kCATransactionDisableActions)
 			videoLayer.frame = bounds
 			CATransaction.commit()
-		}
-	}
-
-
-	private func setVideoURL(_ newValue: URL?) {
-		if newValue != videoURL {
-			looper = nil
-			queuePlayer.removeAllItems()
-			if let url = newValue {
-				queuePlayer.insert(AVPlayerItem(url: url), after: nil)
-				looper = AVPlayerLooper(player: queuePlayer, templateItem: queuePlayer.currentItem!)
-			}
-			invalidateIntrinsicContentSize()
 		}
 	}
 

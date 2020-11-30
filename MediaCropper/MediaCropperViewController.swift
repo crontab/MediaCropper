@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 
 
@@ -16,15 +17,18 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	struct Config {
 		var types: [PickerMediaType] = [.image, .video]
 		var cropRatio: CGFloat = 0.5 // 1 for square
-		var roundCrop: Bool = true
+		var roundCrop: Bool = false // true
 	}
 
 
+	@IBOutlet private var cropButton: UIBarButtonItem?
 	@IBOutlet private var scrollView: UIScrollView!
 	@IBOutlet private var imageView: ScalableImageView!
 	@IBOutlet private var videoView: ScalableVideoView!
 	@IBOutlet private var cropView: InvertedRoundMaskView!
 	@IBOutlet private var cropViewHeight: NSLayoutConstraint!
+
+	@IBOutlet private var processingOverlay: UIView!
 
 	private var config = Config()
 
@@ -42,6 +46,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 		imageView.isHidden = true
 		videoView.isHidden = true
+		processingOverlay.isHidden = true
 
 		pickAction(nil)
 	}
@@ -55,17 +60,17 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	}
 
 
-	func setImage(_ image: UIImage?) {
-		videoView.videoURL = nil
-		imageView.image = image
+	func setImage(_ image: UIImage?, tempURL: URL?) {
+		imageView.setImage(image, tempURL: tempURL)
+		videoView.clear()
 		showHideViews()
 		resetScrollView()
 	}
 
 
-	func setVideoURL(_ videoURL: URL) {
-		videoView.videoURL = videoURL
-		imageView.image = nil
+	func setVideoURL(_ tempURL: URL) {
+		videoView.setTempVideoURL(tempURL)
+		imageView.clear()
 		showHideViews()
 		videoView.play()
 		resetScrollView()
@@ -73,8 +78,8 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 
 	private func showHideViews() {
-		videoView.isHidden = videoView.videoURL == nil
-		imageView.isHidden = imageView.image == nil
+		videoView.isHidden = videoView.isEmpty
+		imageView.isHidden = imageView.isEmpty
 	}
 
 
@@ -86,12 +91,31 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	}
 
 
-	@IBAction func confirmAction(_ sender: Any) {
-		if !imageView.isHidden {
-			setImage(imageView.image?.cropped(at: imageView.effectiveCropFrame(with: scrollView)))
+	private var processing: Bool {
+		get { !processingOverlay.isHidden }
+		set {
+			processingOverlay.isHidden = !newValue
+			cropButton?.isEnabled = !newValue
 		}
-		else {
-			// TODO:
+	}
+
+
+	@IBAction func confirmAction(_ sender: Any) {
+		if let videoURL = videoView.tempURL {
+			videoView.pause()
+			processing = true
+			AVAsset(url: videoURL).croppedToFile(at: videoView.effectiveCropFrame(with: scrollView)) { [self] (result) in
+				processing = false
+				switch result {
+					case .success(let tempUrl):
+						setVideoURL(tempUrl)
+					case .failure(let error):
+						alert(error)
+				}
+			}
+		}
+		else if !imageView.isHidden {
+			setImage(imageView.image?.cropped(at: imageView.effectiveCropFrame(with: scrollView)), tempURL: nil)
 		}
 	}
 
@@ -110,6 +134,7 @@ extension MediaCropperViewController: UIImagePickerControllerDelegate, UINavigat
 		let picker = UIImagePickerController()
 		picker.sourceType = .photoLibrary
 		picker.mediaTypes = config.types.map { $0.rawValue }
+		picker.videoExportPreset = AVAssetExportPresetPassthrough
 		picker.delegate = self
 		present(picker, animated: true)
 	}
@@ -121,11 +146,27 @@ extension MediaCropperViewController: UIImagePickerControllerDelegate, UINavigat
 			switch type {
 				case .image:
 					if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-						setImage(image)
+						setImage(image, tempURL: url)
 					}
 				case .video:
 					setVideoURL(url)
 			}
 		}
+	}
+}
+
+
+// MARK: - Standard alerts
+
+private extension UIViewController {
+
+	func alert(_ error: Error) {
+		alert(title: "Oops...", message: error.localizedDescription)
+	}
+
+	func alert(title: String?, message: String? = nil) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "OK", style: .default))
+		self.present(alert, animated: true)
 	}
 }
