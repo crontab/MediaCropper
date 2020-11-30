@@ -8,7 +8,39 @@
 import UIKit
 
 
-extension CGRect {
+
+protocol ScalableViewProtocol: UIView {
+
+	var screenCropRect: CGRect { get }
+	var naturalSize: CGSize? { get }
+}
+
+
+
+extension ScalableViewProtocol {
+
+	var scaleFactor: CGFloat {
+		guard intrinsicContentSize.height > 0 else {
+			return 1
+		}
+		return (naturalSize?.height ?? 0) / intrinsicContentSize.height
+	}
+
+	func effectiveCropFrame(with scrollView: UIScrollView) -> CGRect {
+		screenCropRect.offset(by: scrollView.contentOffset).scaled(by: scaleFactor / scrollView.zoomScale)
+	}
+
+	var intrinsicSizeForCropping: CGSize? {
+		guard let naturalSize = naturalSize, naturalSize.width > 0, naturalSize.height > 0 else {
+			return nil
+		}
+		return naturalSize.circumscribed(on: screenCropRect.size)
+	}
+}
+
+
+
+private extension CGRect {
 
 	func scaled(by: CGFloat) -> CGRect {
 		var r = self
@@ -28,9 +60,8 @@ extension CGRect {
 }
 
 
-extension CGSize {
 
-	var absed: CGSize { .init(width: abs(width), height: abs(height)) }
+private extension CGSize {
 
 	func circumscribed(on rect: CGSize) -> CGSize {
 		let newHeight = height * rect.width / width
@@ -39,20 +70,5 @@ extension CGSize {
 			return CGSize(width: newWidth, height: rect.height)
 		}
 		return CGSize(width: rect.width, height: newHeight)
-	}
-}
-
-
-extension UIImage {
-
-	func cropped(at cropFrame: CGRect) -> UIImage? {
-		guard cropFrame.size.width > 0, cropFrame.size.height > 0 else {
-			return nil
-		}
-		UIGraphicsBeginImageContextWithOptions(cropFrame.size, true, 1);
-		draw(in: CGRect(x: -cropFrame.origin.x, y: -cropFrame.origin.y, width: size.width, height: size.height))
-		let newImage = UIGraphicsGetImageFromCurrentImageContext()
-		UIGraphicsEndImageContext()
-		return newImage
 	}
 }

@@ -49,8 +49,8 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		imageView.cropSize = cropView.frame.size
-		videoView.cropSize = cropView.frame.size
+		imageView.screenCropRect = cropView.frame
+		videoView.screenCropRect = cropView.frame
 		scrollView.contentInset = .init(top: max(0, cropView.frame.minY), left: 0, bottom: max(0, scrollView.frame.height - cropView.frame.maxY), right: 0)
 	}
 
@@ -86,14 +86,9 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	}
 
 
-	private var effectiveCropFrame: CGRect {
-		cropView.frame.offset(by: scrollView.contentOffset).scaled(by: imageView.scaleFactor / scrollView.zoomScale)
-	}
-
-
 	@IBAction func confirmAction(_ sender: Any) {
 		if !imageView.isHidden {
-			setImage(imageView.image?.cropped(at: effectiveCropFrame))
+			setImage(imageView.image?.cropped(at: imageView.effectiveCropFrame(with: scrollView)))
 		}
 		else {
 			// TODO:

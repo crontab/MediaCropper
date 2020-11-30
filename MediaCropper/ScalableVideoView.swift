@@ -9,7 +9,9 @@ import UIKit
 import AVFoundation
 
 
-class ScalableVideoView: UIView {
+/// This view plays a video in a loop. The `screenCropRect` instructs the view to resize itself (along with the video layer) to the minimal size that fills the crop size, so that it can be positioned by the user on screen. When cropping the actual video, `scaleFactor` can be used to determine how the screen cropping rectangle should be scaled before applying to the video.
+
+class ScalableVideoView: UIView, ScalableViewProtocol {
 
 	var videoURL: URL? {
 		get { (queuePlayer.currentItem?.asset as? AVURLAsset)?.url }
@@ -34,9 +36,9 @@ class ScalableVideoView: UIView {
 	}
 
 
-	var cropSize: CGSize = .zero { // scale to the minimum that fills this rectangle
+	var screenCropRect: CGRect = .zero { // scale to the minimum that fills this rectangle
 		didSet {
-			if cropSize != oldValue {
+			if screenCropRect != oldValue {
 				invalidateIntrinsicContentSize()
 			}
 		}
@@ -86,19 +88,17 @@ class ScalableVideoView: UIView {
 	}
 
 
-	private var naturalSize: CGSize? {
+	var naturalSize: CGSize? {
 		guard let track = queuePlayer.currentItem?.asset.tracks(withMediaType: .video).first else {
 			return nil
 		}
-		return track.naturalSize.applying(track.preferredTransform).absed
+		let result = track.naturalSize.applying(track.preferredTransform)
+		return .init(width: abs(result.width), height: abs(result.height))
 	}
 
 
 	override var intrinsicContentSize: CGSize {
-		guard let naturalSize = naturalSize else {
-			return super.intrinsicContentSize
-		}
-		return naturalSize.circumscribed(on: cropSize)
+		intrinsicSizeForCropping ?? super.intrinsicContentSize
 	}
 
 

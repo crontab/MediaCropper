@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		360308FF25751A1D0043E453 /* CroppingUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 360308FE25751A1D0043E453 /* CroppingUtils.swift */; };
 		3636887D256FE8AE006F3FB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636887C256FE8AE006F3FB2 /* AppDelegate.swift */; };
 		3636887F256FE8AF006F3FB2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3636887E256FE8AF006F3FB2 /* SceneDelegate.swift */; };
 		36368881256FE8AF006F3FB2 /* MediaCropperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36368880256FE8AF006F3FB2 /* MediaCropperViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		360308FE25751A1D0043E453 /* CroppingUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CroppingUtils.swift; sourceTree = "<group>"; };
 		36368879256FE8AE006F3FB2 /* MediaCropper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaCropper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3636887C256FE8AE006F3FB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3636887E256FE8AF006F3FB2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				3636889625701874006F3FB2 /* GeometryUtils.swift */,
+				360308FE25751A1D0043E453 /* CroppingUtils.swift */,
 				36FF0BBA257159DC00481A14 /* PickerMediaType.swift */,
 				36FF0BB42571587200481A14 /* ScalableImageView.swift */,
 				36FF0BC425715F3A00481A14 /* ScalableVideoView.swift */,
@@ -160,6 +163,7 @@
 				3636887F256FE8AF006F3FB2 /* SceneDelegate.swift in Sources */,
 				36FF0BB82571598400481A14 /* InvertedRoundMaskView.swift in Sources */,
 				36FF0BB52571587200481A14 /* ScalableImageView.swift in Sources */,
+				360308FF25751A1D0043E453 /* CroppingUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
