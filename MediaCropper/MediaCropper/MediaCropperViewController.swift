@@ -9,17 +9,28 @@ import UIKit
 import AVFoundation
 
 
+struct MediaCropperConfig {
+
+	/// Combination of : `.image`, `.video`
+	var types: [PickerMediaType] = [.image, .video]
+
+	/// Height/width ratio for the crop frame, e.g. 1 for square; 0 means no cropping, i.e. media is passed through
+	var cropRatio: CGFloat = 1
+
+	/// Display an oval mask (or round if cropRatio = 1)
+	var ovalCropMask: Bool = false
+
+	// TODO: videoExportPreset: String? = nil
+	// TODO: var imageExportPreset: UIImagePickerController.ImageURLExportPreset? = nil
+
+	fileprivate var croppingRequired: Bool { cropRatio > 0 }
+}
+
+
 
 // MARK: - View controller
 
 class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
-
-	struct Config {
-		var types: [PickerMediaType] = [.image, .video]
-		var cropRatio: CGFloat = 0.5 // 1 for square
-		var roundCrop: Bool = false // true
-	}
-
 
 	@IBOutlet private var cropButton: UIBarButtonItem?
 	@IBOutlet private var scrollView: UIScrollView!
@@ -30,10 +41,20 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 	@IBOutlet private var processingOverlay: UIView!
 
-	private var config = Config()
+	private var config = MediaCropperConfig()
 
 
 	override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
+
+
+	class func launch(from parent: UIViewController, config: MediaCropperConfig?) {
+		let navigator = UIStoryboard(name: "MediaCropper", bundle: Bundle(for: self)).instantiateInitialViewController() as! UINavigationController
+		if let config = config {
+			let this = navigator.viewControllers.first as! Self
+			this.config = config
+		}
+		parent.present(navigator, animated: true)
+	}
 
 
 	override func viewDidLoad() {
@@ -42,13 +63,11 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 		scrollView.delegate = self
 
 		cropViewHeight.constant = cropView.frame.width * config.cropRatio
-		cropView.enableMask = config.roundCrop
+		cropView.enableMask = config.ovalCropMask
 
 		imageView.isHidden = true
 		videoView.isHidden = true
-		processingOverlay.isHidden = true
-
-		pickAction(nil)
+		isProcessing = false
 	}
 
 
@@ -91,7 +110,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	}
 
 
-	private var processing: Bool {
+	private var isProcessing: Bool {
 		get { !processingOverlay.isHidden }
 		set {
 			processingOverlay.isHidden = !newValue
@@ -100,14 +119,15 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	}
 
 
-	@IBAction func confirmAction(_ sender: Any) {
+	@IBAction private func confirmAction(_ sender: Any) {
 		if let videoURL = videoView.tempURL {
 			videoView.pause()
-			processing = true
+			isProcessing = true
 			AVAsset(url: videoURL).croppedToFile(at: videoView.effectiveCropFrame(with: scrollView)) { [self] (result) in
-				processing = false
+				isProcessing = false
 				switch result {
 					case .success(let tempUrl):
+						// TODO: pass to the delegate
 						setVideoURL(tempUrl)
 					case .failure(let error):
 						alert(error)
@@ -115,8 +135,14 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 			}
 		}
 		else if !imageView.isHidden {
+			// TODO: pass to the delegate
 			setImage(imageView.image?.cropped(at: imageView.effectiveCropFrame(with: scrollView)), tempURL: nil)
 		}
+	}
+
+
+	@IBAction private func cancelAction(_ sender: Any) {
+		navigationController?.dismiss(animated: true)
 	}
 
 
@@ -130,7 +156,8 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 extension MediaCropperViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-	@IBAction private func pickAction(_ sender: Any?) {
+	private func pickAction() {
+		guard !config.types.isEmpty else { return }
 		let picker = UIImagePickerController()
 		picker.sourceType = .photoLibrary
 		picker.mediaTypes = config.types.map { $0.rawValue }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5O4-pI-MdJ">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="kXP-or-qrz">
+            <objects>
+                <viewController id="5O4-pI-MdJ" customClass="MainViewController" customModule="MediaCropper" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sV1-un-pYP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Media Cropper Demo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iee-sN-EeI">
+                                <rect key="frame" x="76" y="32" width="168.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Npo-yo-t0S">
+                                <rect key="frame" x="40" y="84.5" width="240" height="240"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Npo-yo-t0S" secondAttribute="height" multiplier="1:1" id="0G0-Dz-zKq"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="io1-NS-Etv">
+                                <rect key="frame" x="91" y="356.5" width="138" height="30"/>
+                                <state key="normal" title="Pick a square image"/>
+                                <connections>
+                                    <action selector="pickSquareImageAction:" destination="5O4-pI-MdJ" eventType="touchUpInside" id="71d-yQ-r9B"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hTr-tv-0f0"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Npo-yo-t0S" firstAttribute="width" secondItem="sV1-un-pYP" secondAttribute="width" multiplier="0.75" id="Ajg-bZ-MUM"/>
+                            <constraint firstItem="Npo-yo-t0S" firstAttribute="centerX" secondItem="sV1-un-pYP" secondAttribute="centerX" id="Ang-yl-4Wb"/>
+                            <constraint firstItem="io1-NS-Etv" firstAttribute="top" secondItem="Npo-yo-t0S" secondAttribute="bottom" constant="32" id="eX3-wQ-IRY"/>
+                            <constraint firstItem="io1-NS-Etv" firstAttribute="centerX" secondItem="sV1-un-pYP" secondAttribute="centerX" id="loi-HM-HxD"/>
+                            <constraint firstItem="Iee-sN-EeI" firstAttribute="top" secondItem="hTr-tv-0f0" secondAttribute="top" constant="32" id="nnE-2V-ZWM"/>
+                            <constraint firstItem="Iee-sN-EeI" firstAttribute="centerX" secondItem="sV1-un-pYP" secondAttribute="centerX" id="oa7-DC-QWG"/>
+                            <constraint firstItem="Npo-yo-t0S" firstAttribute="top" secondItem="Iee-sN-EeI" secondAttribute="bottom" constant="32" id="uR5-Rv-VKS"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="Npo-yo-t0S" id="QPd-Yo-BQx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MFS-sA-wvj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="286" y="90"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
