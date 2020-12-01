@@ -17,6 +17,7 @@
 		366BD317257650C2004FEA3C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 366BD316257650C2004FEA3C /* Main.storyboard */; };
 		366BD31E257651C0004FEA3C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366BD31D257651C0004FEA3C /* MainViewController.swift */; };
 		366BD32A25765FE4004FEA3C /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366BD32925765FE4004FEA3C /* CoreServices.framework */; };
+		366BD32D25766BCD004FEA3C /* MediaCropperController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366BD32C25766BCD004FEA3C /* MediaCropperController.swift */; };
 		36FF0BB52571587200481A14 /* ScalableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FF0BB42571587200481A14 /* ScalableImageView.swift */; };
 		36FF0BB82571598400481A14 /* InvertedRoundMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FF0BB72571598400481A14 /* InvertedRoundMaskView.swift */; };
 		36FF0BBB257159DC00481A14 /* PickerMediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FF0BBA257159DC00481A14 /* PickerMediaType.swift */; };
@@ -36,6 +37,7 @@
 		366BD316257650C2004FEA3C /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		366BD31D257651C0004FEA3C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		366BD32925765FE4004FEA3C /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		366BD32C25766BCD004FEA3C /* MediaCropperController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCropperController.swift; sourceTree = "<group>"; };
 		36FF0BB42571587200481A14 /* ScalableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalableImageView.swift; sourceTree = "<group>"; };
 		36FF0BB72571598400481A14 /* InvertedRoundMaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvertedRoundMaskView.swift; sourceTree = "<group>"; };
 		36FF0BBA257159DC00481A14 /* PickerMediaType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerMediaType.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				36FF0BC425715F3A00481A14 /* ScalableVideoView.swift */,
 				36FF0BB72571598400481A14 /* InvertedRoundMaskView.swift */,
 				36368880256FE8AF006F3FB2 /* MediaCropperViewController.swift */,
+				366BD32C25766BCD004FEA3C /* MediaCropperController.swift */,
 				36368882256FE8AF006F3FB2 /* MediaCropper.storyboard */,
 			);
 			path = MediaCropper;
@@ -187,6 +190,7 @@
 				36FF0BB82571598400481A14 /* InvertedRoundMaskView.swift in Sources */,
 				36FF0BB52571587200481A14 /* ScalableImageView.swift in Sources */,
 				360308FF25751A1D0043E453 /* CroppingUtils.swift in Sources */,
+				366BD32D25766BCD004FEA3C /* MediaCropperController.swift in Sources */,
 				366BD31E257651C0004FEA3C /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

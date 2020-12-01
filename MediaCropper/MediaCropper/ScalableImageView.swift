@@ -12,20 +12,6 @@ import UIKit
 
 class ScalableImageView: UIImageView, ScalableViewProtocol {
 
-	func clear() { setImage(nil, tempURL: nil) }
-	var isEmpty: Bool { image == nil }
-
-	private var tempURL: URL? // temp file URL is stored here for subsequent removal when overridden
-
-	func setImage(_ image: UIImage?, tempURL: URL?) {
-		if let tempURL = self.tempURL {
-			try? FileManager.default.removeItem(at: tempURL)
-		}
-		self.image = image
-		self.tempURL = tempURL
-	}
-
-
 	var screenCropRect: CGRect = .zero { // scale to the minimum that fills this rectangle
 		didSet {
 			if screenCropRect != oldValue {

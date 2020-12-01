@@ -14,8 +14,6 @@ import AVFoundation
 class ScalableVideoView: UIView, ScalableViewProtocol {
 
 	var tempURL: URL? { videoURL }
-	func clear() { setTempVideoURL(nil) }
-	var isEmpty: Bool { videoURL == nil }
 
 
 	func setTempVideoURL(_ tempURL: URL?) {
