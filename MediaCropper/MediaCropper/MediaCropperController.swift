@@ -16,6 +16,10 @@ protocol MediaCropperDelegate: class {
 
 class MediaCropperController: UIImagePickerController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+	// Default export format is 1920x1080 HEVC if present (newer devices), or H.264 on older devices
+	static let optimalVideoExportPreset: String = { AVAssetExportSession.allExportPresets().first(where: { $0 == AVAssetExportPresetHEVC1920x1080 }) ?? AVAssetExportPreset1920x1080 }()
+
+
 	enum Item {
 		case image(image: UIImage)
 		case video(tempVideoURL: URL)
@@ -26,10 +30,10 @@ class MediaCropperController: UIImagePickerController, UIImagePickerControllerDe
 		var types: [PickerMediaType] = [.image, .video]
 		var cropRatio: CGFloat = 1
 		var ovalCropMask: Bool = false
-		// TODO: videoExportPreset: String? = nil
-		// TODO: var imageExportPreset: UIImagePickerController.ImageURLExportPreset? = nil
+		var videoExportPreset: String = optimalVideoExportPreset
 
-		fileprivate var requiresCropping: Bool { cropRatio > 0 }
+		var requiresCropping: Bool { cropRatio > 0 }
+		var libraryVideoExportPreset: String { requiresCropping ? AVAssetExportPresetPassthrough : videoExportPreset }
 	}
 
 
@@ -37,12 +41,12 @@ class MediaCropperController: UIImagePickerController, UIImagePickerControllerDe
 	weak var mediaCropperDelegate: MediaCropperDelegate?
 
 
-	class func launch(from parent: UIViewController, delegate: MediaCropperDelegate, configure: (Config) -> Void) {
+	static func launch(from parent: UIViewController, delegate: MediaCropperDelegate, configure: (Config) -> Void) {
 		let this = MediaCropperController()
 		configure(this.config)
 		this.sourceType = .photoLibrary
 		this.mediaTypes = this.config.types.map { $0.rawValue }
-		this.videoExportPreset = AVAssetExportPresetPassthrough
+		this.videoExportPreset = this.config.libraryVideoExportPreset // passthrough if cropping is required
 		this.delegate = this
 		this.mediaCropperDelegate = delegate
 		parent.present(this, animated: true)
@@ -58,7 +62,7 @@ class MediaCropperController: UIImagePickerController, UIImagePickerControllerDe
 				case .image:
 					if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
 						if config.requiresCropping {
-							let cropper = MediaCropperViewController.instantiate(with: self, item: .image(image: image))
+							let cropper = MediaCropperViewController.instantiate(with: self, cancelButton: false, item: .image(image: image))
 							pushViewController(cropper, animated: true)
 							return
 						}
@@ -67,9 +71,13 @@ class MediaCropperController: UIImagePickerController, UIImagePickerControllerDe
 
 				case .video:
 					if config.requiresCropping {
+						let cropper = MediaCropperViewController.instantiate(with: self, cancelButton: true, item: .video(tempVideoURL: url))
+						let navigator = UINavigationController(rootViewController: cropper)
+						navigator.modalPresentationStyle = .fullScreen
+						present(navigator, animated: true)
 						return
 					}
-					// TODO: move the file if not cropping
+					mediaCropperDelegate?.mediaCropper(self, didSelectItem: .video(tempVideoURL: url))
 			}
 		}
 

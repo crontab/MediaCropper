@@ -22,7 +22,6 @@ class MainViewController: UIViewController, MediaCropperDelegate {
 
 
 	func mediaCropper(_ mediaCropper: MediaCropperController, didSelectItem item: MediaCropperController.Item) {
-		mediaCropper.dismiss(animated: true)
 		switch item {
 			case .image(let image):
 				imageView.image = image

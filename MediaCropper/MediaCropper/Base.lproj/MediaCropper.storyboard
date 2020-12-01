@@ -156,10 +156,10 @@
             </objects>
             <point key="canvasLocation" x="-146.25" y="-27.464788732394368"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Unused Navigation Controller-->
         <scene sceneID="W0l-OU-GVI">
             <objects>
-                <navigationController id="cqF-W7-pmd" sceneMemberID="viewController">
+                <navigationController id="cqF-W7-pmd" userLabel="Unused Navigation Controller" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="PDP-NU-ZD7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

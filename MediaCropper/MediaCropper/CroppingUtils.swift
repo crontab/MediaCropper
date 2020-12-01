@@ -27,19 +27,18 @@ extension UIImage {
 
 extension AVAsset {
 
-	func croppedToFile(at cropFrame: CGRect, completion: @escaping (Result<URL, Error>) -> Void) {
+	func croppedToFile(at cropFrame: CGRect, preset: String, completion: @escaping (Result<URL, Error>) -> Void) {
 		switch videoComposition(withCropFrame: cropFrame) {
 			case .success(let composition):
-				cropped(with: composition, completion: completion)
+				cropped(with: composition, preset: preset, completion: completion)
 			case .failure(let error):
 				completion(.failure(error))
 		}
 	}
 
 
-	private func cropped(with composition: AVVideoComposition, completion: @escaping (Result<URL, Error>) -> Void) {
-		let presetName = AVAssetExportSession.allExportPresets().first(where: { $0 == AVAssetExportPresetHEVC1920x1080 }) ?? AVAssetExportPreset1920x1080
-		guard let session = AVAssetExportSession(asset: self, presetName: presetName) else {
+	private func cropped(with composition: AVVideoComposition, preset: String, completion: @escaping (Result<URL, Error>) -> Void) {
+		guard let session = AVAssetExportSession(asset: self, presetName: preset) else {
 			completion(.failure(CropperError(message: "Codec not supported")))
 			return
 		}

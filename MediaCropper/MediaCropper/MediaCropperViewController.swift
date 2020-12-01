@@ -10,7 +10,7 @@ import AVFoundation
 
 
 
-class MediaCropperViewController: UIViewController {
+class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 	@IBOutlet private var cropButton: UIBarButtonItem?
 	@IBOutlet private var scrollView: UIScrollView!
@@ -29,10 +29,13 @@ class MediaCropperViewController: UIViewController {
 	override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
 
 
-	static func instantiate(with cropper: MediaCropperController, item: MediaCropperController.Item) -> Self {
+	static func instantiate(with cropper: MediaCropperController, cancelButton: Bool, item: MediaCropperController.Item) -> Self {
 		let this = UIStoryboard(name: "MediaCropper", bundle: Bundle(for: self)).instantiateViewController(withIdentifier: "MediaCropperViewController") as! Self
 		this.cropper = cropper
 		this.item = item
+		if cancelButton {
+			this.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: this, action: #selector(cancelAction(_:)))
+		}
 		return this
 	}
 
@@ -55,9 +58,10 @@ class MediaCropperViewController: UIViewController {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 
-		cropView.layoutIfNeeded()
+		cropView.layoutIfNeeded() // ensure the width is correct
 		cropViewHeight.constant = cropView.frame.width * config.cropRatio
-		view.layoutIfNeeded()
+		view.layoutIfNeeded() // now ensure cropView.frame is correct before using it below
+
 		imageView.screenCropRect = cropView.frame
 		videoView.screenCropRect = cropView.frame
 		scrollView.contentInset = .init(top: max(0, cropView.frame.minY), left: 0, bottom: max(0, scrollView.frame.height - cropView.frame.maxY), right: 0)
@@ -100,17 +104,21 @@ class MediaCropperViewController: UIViewController {
 	}
 
 
+	func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+		!imageView.isHidden ? imageView : !videoView.isHidden ? videoView : nil
+	}
+
+
 	@IBAction private func confirmAction(_ sender: Any) {
 		if let videoURL = videoView.tempURL {
 			videoView.pause()
 			isProcessing = true
-			AVAsset(url: videoURL).croppedToFile(at: videoView.effectiveCropFrame(with: scrollView)) { [self] (result) in
+			AVAsset(url: videoURL).croppedToFile(at: videoView.effectiveCropFrame(with: scrollView), preset: config.videoExportPreset) { [self] (result) in
 				isProcessing = false
 				switch result {
 					case .success(let tempURL):
-						dismiss(animated: true) {
-							delegate?.mediaCropper(cropper, didSelectItem: .video(tempVideoURL: tempURL))
-						}
+						delegate?.mediaCropper(cropper, didSelectItem: .video(tempVideoURL: tempURL))
+						cropper.presentingViewController?.dismiss(animated: true)
 					case .failure(let error):
 						alert(error)
 				}
@@ -119,23 +127,15 @@ class MediaCropperViewController: UIViewController {
 		else {
 			if let croppedImage = imageView.image?.cropped(at: imageView.effectiveCropFrame(with: scrollView)) {
 				delegate?.mediaCropper(cropper, didSelectItem: .image(image: croppedImage))
+				cropper.dismiss(animated: true)
 			}
 		}
 	}
 
 
-	@IBAction private func cancelAction(_ sender: Any) {
-		navigationController?.dismiss(animated: true)
-	}
-}
-
-
-// MARK: - Scroll view delegate
-
-extension MediaCropperViewController: UIScrollViewDelegate {
-
-	func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-		!imageView.isHidden ? imageView : !videoView.isHidden ? videoView : nil
+	@objc private func cancelAction(_ sender: Any) {
+		// TODO: cancel cropping of the video
+		cropper.presentingViewController?.dismiss(animated: true)
 	}
 }
 
