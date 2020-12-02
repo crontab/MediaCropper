@@ -10,7 +10,7 @@ import AVFoundation
 
 
 protocol MediaCropperDelegate: class {
-	func mediaCropper(_ mediaCropper: MediaCropperController, didSelectItem item: MediaCropperController.Item)
+	func mediaCropperDidSelectItem(_ item: MediaCropperController.Item)
 }
 
 
@@ -66,7 +66,7 @@ class MediaCropperController: UIImagePickerController, UIImagePickerControllerDe
 							pushViewController(cropper, animated: true)
 							return
 						}
-						mediaCropperDelegate?.mediaCropper(self, didSelectItem: .image(image: image))
+						mediaCropperDelegate?.mediaCropperDidSelectItem(.image(image: image))
 					}
 
 				case .video:
@@ -77,7 +77,7 @@ class MediaCropperController: UIImagePickerController, UIImagePickerControllerDe
 						present(navigator, animated: true)
 						return
 					}
-					mediaCropperDelegate?.mediaCropper(self, didSelectItem: .video(tempVideoURL: url))
+					mediaCropperDelegate?.mediaCropperDidSelectItem(.video(tempVideoURL: url))
 			}
 		}
 

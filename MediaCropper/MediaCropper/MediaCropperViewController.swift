@@ -21,10 +21,10 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 	@IBOutlet private var processingOverlay: UIView!
 
-	private weak var cropper: MediaCropperController!
+	private weak var cropper: MediaCropperController?
 	private var item: MediaCropperController.Item!
-	private var config: MediaCropperController.Config { cropper.config }
-	private var delegate: MediaCropperDelegate? { cropper.mediaCropperDelegate }
+	private var config: MediaCropperController.Config? { cropper?.config }
+	private var delegate: MediaCropperDelegate? { cropper?.mediaCropperDelegate }
 
 	override var preferredStatusBarStyle: UIStatusBarStyle { .lightContent }
 
@@ -47,7 +47,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 		scrollView.delegate = self
 
-		cropView.enableMask = config.ovalCropMask
+		cropView.enableMask = config?.ovalCropMask ?? false
 
 		isProcessing = false
 	}
@@ -59,7 +59,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 		super.viewDidLayoutSubviews()
 
 		cropView.layoutIfNeeded() // ensure the width is correct
-		cropViewHeight.constant = cropView.frame.width * config.cropRatio
+		cropViewHeight.constant = cropView.frame.width * (config?.cropRatio ?? 1)
 		view.layoutIfNeeded() // now ensure cropView.frame is correct before using it below
 
 		imageView.screenCropRect = cropView.frame
@@ -109,33 +109,49 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	}
 
 
+	private var videoExportSession: AVAssetExportSession?
+
 	@IBAction private func confirmAction(_ sender: Any) {
-		if let videoURL = videoView.tempURL {
+		if let videoURL = videoView.tempURL, let preset = config?.videoExportPreset {
 			videoView.pause()
 			isProcessing = true
-			AVAsset(url: videoURL).croppedToFile(at: videoView.effectiveCropFrame(with: scrollView), preset: config.videoExportPreset) { [self] (result) in
+			videoExportSession = AVAsset(url: videoURL).croppedToFile(at: videoView.effectiveCropFrame(with: scrollView), preset: preset) { [self] (result) in
 				isProcessing = false
 				switch result {
 					case .success(let tempURL):
-						delegate?.mediaCropper(cropper, didSelectItem: .video(tempVideoURL: tempURL))
-						cropper.presentingViewController?.dismiss(animated: true)
+						delegate?.mediaCropperDidSelectItem(.video(tempVideoURL: tempURL))
+						videoExportSessionDidFinish(withError: nil, inputURL: videoURL)
+						cropper?.presentingViewController?.dismiss(animated: true)
 					case .failure(let error):
-						alert(error)
+						if !(error is CropperCancelledError) {
+							alert(error)
+						}
+						videoExportSessionDidFinish(withError: error, inputURL: videoURL)
 				}
 			}
 		}
-		else {
-			if let croppedImage = imageView.image?.cropped(at: imageView.effectiveCropFrame(with: scrollView)) {
-				delegate?.mediaCropper(cropper, didSelectItem: .image(image: croppedImage))
-				cropper.dismiss(animated: true)
-			}
+		else if let croppedImage = imageView.image?.cropped(at: imageView.effectiveCropFrame(with: scrollView)) {
+			delegate?.mediaCropperDidSelectItem(.image(image: croppedImage))
+			cropper?.dismiss(animated: true)
 		}
 	}
 
 
+	private func videoExportSessionDidFinish(withError error: Error?, inputURL: URL) {
+		if let session = videoExportSession {
+			videoExportSession = nil
+			if error != nil, let outputURL = session.outputURL {
+				try? FileManager.default.removeItem(at: outputURL)
+			}
+		}
+		try? FileManager.default.removeItem(at: inputURL) // doesn't seem to be able to remove this actually
+	}
+
+
 	@objc private func cancelAction(_ sender: Any) {
-		// TODO: cancel cropping of the video
-		cropper.presentingViewController?.dismiss(animated: true)
+		videoExportSession?.cancelExport()
+		// Since the cancel button is only created for the video flow, dismiss self and the system picker (subclassed as `cropper`)
+		cropper?.presentingViewController?.dismiss(animated: true)
 	}
 }
 

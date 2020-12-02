@@ -27,20 +27,21 @@ extension UIImage {
 
 extension AVAsset {
 
-	func croppedToFile(at cropFrame: CGRect, preset: String, completion: @escaping (Result<URL, Error>) -> Void) {
+	func croppedToFile(at cropFrame: CGRect, preset: String, completion: @escaping (Result<URL, Error>) -> Void) -> AVAssetExportSession? {
 		switch videoComposition(withCropFrame: cropFrame) {
 			case .success(let composition):
-				cropped(with: composition, preset: preset, completion: completion)
+				return cropped(with: composition, preset: preset, completion: completion)
 			case .failure(let error):
 				completion(.failure(error))
+				return nil
 		}
 	}
 
 
-	private func cropped(with composition: AVVideoComposition, preset: String, completion: @escaping (Result<URL, Error>) -> Void) {
+	private func cropped(with composition: AVVideoComposition, preset: String, completion: @escaping (Result<URL, Error>) -> Void) -> AVAssetExportSession? {
 		guard let session = AVAssetExportSession(asset: self, presetName: preset) else {
 			completion(.failure(CropperError(message: "Codec not supported")))
-			return
+			return nil
 		}
 		session.videoComposition = composition
 		let outputURL = URL.tempFile(withExtension: "mov")
@@ -50,9 +51,18 @@ extension AVAsset {
 		session.canPerformMultiplePassesOverSourceMediaData = true
 		session.exportAsynchronously(completionHandler: { () -> Void in
 			DispatchQueue.main.async(execute: { () -> Void in
-				completion(.success(outputURL))
+				if let error = session.error {
+					completion(.failure(error))
+				}
+				else if session.status != .completed {
+					completion(.failure(CropperCancelledError()))
+				}
+				else {
+					completion(.success(outputURL))
+				}
 			})
 		})
+		return session
 	}
 
 
@@ -85,6 +95,11 @@ struct CropperError: LocalizedError {
 
 	var message: String
 	var errorDescription: String? { "Cropper error: " + message }
+}
+
+
+struct CropperCancelledError: LocalizedError {
+	var errorDescription: String? { "Cropper has been cancelled" }
 }
 
 
