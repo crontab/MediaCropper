@@ -31,6 +31,11 @@ class CroppingMaskView: UIView {
 		didSet { if cornerMarkerWidth != oldValue { setNeedsLayout() } }
 	}
 
+	@IBInspectable
+	var maskColor: UIColor? = .clear {
+		didSet { if maskColor != oldValue { setNeedsLayout() } }
+	}
+
 
 	private let cornerMarkerLength: CGFloat = 12
 
@@ -43,12 +48,12 @@ class CroppingMaskView: UIView {
 		let maskLayer = CAShapeLayer()
 		maskLayer.path = path.cgPath
 		maskLayer.fillRule = .evenOdd
-		maskLayer.fillColor = backgroundColor?.cgColor
+		maskLayer.fillColor = maskColor?.cgColor
 
-		layer.backgroundColor = nil
 		layer.sublayers = []
 		layer.addSublayer(maskLayer)
 
+		// Oval or rectangular border
 		if borderWidth > 0 {
 			let layer = CAShapeLayer()
 			layer.path = maskPath(insetBy: borderWidth / 2).cgPath
@@ -56,11 +61,19 @@ class CroppingMaskView: UIView {
 			layer.fillColor = nil
 			layer.lineWidth = borderWidth
 			if borderDash > 0 {
-				layer.lineDashPattern = [borderDash as NSNumber, borderDash as NSNumber]
+				// For dashed border, assuming it's circular, calculate the best dash length to have equal gaps
+				let rect = bounds.inset(by: borderWidth / 2)
+				let c = rect.width * .pi
+				let numDashes = c / borderDash
+				let roundedNumDashes = CGFloat(Int(numDashes) / 2 * 2)
+				let delta = c - roundedNumDashes * borderDash
+				let newDash = borderDash + delta / roundedNumDashes
+				layer.lineDashPattern = [newDash as NSNumber, newDash as NSNumber]
 			}
 			self.layer.addSublayer(layer)
 		}
 
+		// Corner markers
 		if cornerMarkerWidth > 0 {
 			let rect = bounds.inset(by: cornerMarkerWidth / 2)
 			let layer = CAShapeLayer()

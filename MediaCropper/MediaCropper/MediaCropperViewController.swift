@@ -44,10 +44,22 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 		super.viewDidLoad()
 
 		navigationController?.setNavigationBarHidden(false, animated: true)
+		navigationController?.navigationBar.isTranslucent = false
 
 		scrollView.delegate = self
 
-		cropView.isOval = config?.ovalCropMask ?? false
+		if config?.ovalCropMask ?? false {
+			cropView.isOval = true
+			cropView.borderWidth = 2
+			cropView.borderDash = 10
+			cropView.cornerMarkerWidth = 0
+		}
+		else {
+			cropView.isOval = false
+			cropView.borderWidth = 1
+			cropView.borderDash = 0
+			cropView.cornerMarkerWidth = 3
+		}
 
 		isProcessing = false
 	}
