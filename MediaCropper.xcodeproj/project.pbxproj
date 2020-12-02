@@ -68,15 +68,7 @@
 		366518E72577EB4E00825E49 /* MediaCropper */ = {
 			isa = PBXGroup;
 			children = (
-				366518FA2577EC8900825E49 /* GeometryUtils.swift */,
-				366518F92577EC8900825E49 /* CroppingUtils.swift */,
-				366518F42577EC8800825E49 /* PickerMediaType.swift */,
-				366518F62577EC8800825E49 /* ScalableImageView.swift */,
-				366518F82577EC8800825E49 /* ScalableVideoView.swift */,
-				366518F72577EC8800825E49 /* CroppingMaskView.swift */,
-				366518F52577EC8800825E49 /* MediaCropperViewController.swift */,
-				366518FB2577EC8900825E49 /* MediaCropperController.swift */,
-				366518FD2577EC8900825E49 /* MediaCropper.storyboard */,
+				366519162577EF8E00825E49 /* Sources */,
 				366518E82577EB4E00825E49 /* MediaCropper.h */,
 				366518E92577EB4E00825E49 /* Info.plist */,
 			);
@@ -89,6 +81,22 @@
 				366519112577ED2000825E49 /* CoreServices.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		366519162577EF8E00825E49 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				366518FA2577EC8900825E49 /* GeometryUtils.swift */,
+				366518F92577EC8900825E49 /* CroppingUtils.swift */,
+				366518F42577EC8800825E49 /* PickerMediaType.swift */,
+				366518F62577EC8800825E49 /* ScalableImageView.swift */,
+				366518F82577EC8800825E49 /* ScalableVideoView.swift */,
+				366518F72577EC8800825E49 /* CroppingMaskView.swift */,
+				366518F52577EC8800825E49 /* MediaCropperViewController.swift */,
+				366518FB2577EC8900825E49 /* MediaCropperController.swift */,
+				366518FD2577EC8900825E49 /* MediaCropper.storyboard */,
+			);
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
