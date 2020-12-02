@@ -11,14 +11,14 @@ import CoreServices // for UTTypeConformsTo
 
 /// Media types accepted by the image and document pickers
 
-enum PickerMediaType: String, CaseIterable {
+public enum PickerMediaType: String, CaseIterable {
 	case video = "public.movie"
 	case image = "public.image"
 
 
 	/// A media subtype returned by one of the media pickers (image or document) can be translated to one of the general types above using `asSuperclassOf()`. For example `public.jpeg` becomes `.image`
 
-	static func asSuperclassOf(rawValue: String?) -> Self? {
+	public static func asSuperclassOf(rawValue: String?) -> Self? {
 		guard let rawValue = rawValue else {
 			return nil
 		}

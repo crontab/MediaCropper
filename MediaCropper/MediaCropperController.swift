@@ -9,28 +9,28 @@ import UIKit
 import AVFoundation
 
 
-protocol MediaCropperDelegate: class {
+public protocol MediaCropperDelegate: class {
 	func mediaCropperDidSelectItem(_ item: MediaCropperController.Item)
 }
 
 
-class MediaCropperController: UIImagePickerController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+public class MediaCropperController: UIImagePickerController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
 	// Default export format is 1920x1080 HEVC if present (newer devices), or H.264 on older devices
 	static let optimalVideoExportPreset: String = { AVAssetExportSession.allExportPresets().first(where: { $0 == AVAssetExportPresetHEVC1920x1080 }) ?? AVAssetExportPreset1920x1080 }()
 
 
-	enum Item {
+	public enum Item {
 		case image(image: UIImage)
 		case video(tempVideoURL: URL)
 	}
 
 
-	class Config {
-		var types: [PickerMediaType] = [.image, .video]
-		var cropRatio: CGFloat = 1
-		var ovalCropMask: Bool = false
-		var videoExportPreset: String = optimalVideoExportPreset
+	public class Config {
+		public var types: [PickerMediaType] = [.image, .video]
+		public var cropRatio: CGFloat = 1
+		public var ovalCropMask: Bool = false
+		public var videoExportPreset: String = optimalVideoExportPreset
 
 		var requiresCropping: Bool { cropRatio > 0 }
 		var libraryVideoExportPreset: String { requiresCropping ? AVAssetExportPresetPassthrough : videoExportPreset }
@@ -41,7 +41,7 @@ class MediaCropperController: UIImagePickerController, UIImagePickerControllerDe
 	weak var mediaCropperDelegate: MediaCropperDelegate?
 
 
-	static func launch(from parent: UIViewController, delegate: MediaCropperDelegate, configure: (Config) -> Void) {
+	public static func launch(from parent: UIViewController, delegate: MediaCropperDelegate, configure: (Config) -> Void) {
 		let this = MediaCropperController()
 		configure(this.config)
 		this.sourceType = .photoLibrary
@@ -53,7 +53,7 @@ class MediaCropperController: UIImagePickerController, UIImagePickerControllerDe
 	}
 
 
-	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+	public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
 		if let url = (info[.mediaURL] ?? info[.imageURL]) as? URL, let type = PickerMediaType.asSuperclassOf(rawValue: info[.mediaType] as? String) {
 
