@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Crop your video-->
+        <!--Crop your media-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="MediaCropperViewController" id="BYZ-38-t0r" customClass="MediaCropperViewController" customModule="MediaCropper" customModuleProvider="target" sceneMemberID="viewController">
@@ -147,7 +147,7 @@
                             <constraint firstItem="rk1-JT-klz" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="v0V-bh-guQ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Crop your video" id="ZIJ-51-M6w">
+                    <navigationItem key="navigationItem" title="Crop your media" id="ZIJ-51-M6w">
                         <barButtonItem key="rightBarButtonItem" title="Crop" style="done" id="5zS-DY-XKg">
                             <connections>
                                 <action selector="confirmAction:" destination="BYZ-38-t0r" id="6pX-cg-E29"/>
