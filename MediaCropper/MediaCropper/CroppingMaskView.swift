@@ -1,5 +1,5 @@
 //
-//  InvertedRoundMaskView.swift
+//  CroppingMaskView.swift
 //  MediaCropper
 //
 //  Created by Hovik Melikyan on 27/11/2020.
@@ -9,7 +9,7 @@ import UIKit
 
 
 @IBDesignable
-class InvertedRoundMaskView: UIView {
+class CroppingMaskView: UIView {
 
 	@IBInspectable
 	var enableMask: Bool = false {

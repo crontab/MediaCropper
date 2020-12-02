@@ -16,7 +16,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	@IBOutlet private var scrollView: UIScrollView!
 	@IBOutlet private var imageView: ScalableImageView!
 	@IBOutlet private var videoView: ScalableVideoView!
-	@IBOutlet private var cropView: InvertedRoundMaskView!
+	@IBOutlet private var cropView: CroppingMaskView!
 	@IBOutlet private var cropViewHeight: NSLayoutConstraint!
 
 	@IBOutlet private var processingOverlay: UIView!
