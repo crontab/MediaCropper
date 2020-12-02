@@ -59,7 +59,7 @@
 		36368870256FE8AE006F3FB2 = {
 			isa = PBXGroup;
 			children = (
-				3636887B256FE8AE006F3FB2 /* MediaCropper */,
+				3636887B256FE8AE006F3FB2 /* MediaCropperDemo */,
 				3636887A256FE8AE006F3FB2 /* Products */,
 				366BD32825765FE4004FEA3C /* Frameworks */,
 			);
@@ -73,7 +73,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		3636887B256FE8AE006F3FB2 /* MediaCropper */ = {
+		3636887B256FE8AE006F3FB2 /* MediaCropperDemo */ = {
 			isa = PBXGroup;
 			children = (
 				366BD31B25765194004FEA3C /* MediaCropper */,
@@ -84,7 +84,7 @@
 				36368887256FE8B1006F3FB2 /* LaunchScreen.storyboard */,
 				3636888A256FE8B1006F3FB2 /* Info.plist */,
 			);
-			path = MediaCropper;
+			path = MediaCropperDemo;
 			sourceTree = "<group>";
 		};
 		366BD31B25765194004FEA3C /* MediaCropper */ = {
@@ -340,7 +340,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XJ35PC86R6;
-				INFOPLIST_FILE = MediaCropper/Info.plist;
+				INFOPLIST_FILE = MediaCropperDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -359,7 +359,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XJ35PC86R6;
-				INFOPLIST_FILE = MediaCropper/Info.plist;
+				INFOPLIST_FILE = MediaCropperDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
