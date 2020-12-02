@@ -47,7 +47,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 		scrollView.delegate = self
 
-		cropView.enableMask = config?.ovalCropMask ?? false
+		cropView.isOval = config?.ovalCropMask ?? false
 
 		isProcessing = false
 	}
