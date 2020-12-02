@@ -26,7 +26,7 @@
 
 /* Begin PBXFileReference section */
 		360308FE25751A1D0043E453 /* CroppingUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CroppingUtils.swift; sourceTree = "<group>"; };
-		36368879256FE8AE006F3FB2 /* MediaCropper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaCropper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		36368879256FE8AE006F3FB2 /* MediaCropperDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MediaCropperDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3636887C256FE8AE006F3FB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		36368880256FE8AF006F3FB2 /* MediaCropperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCropperViewController.swift; sourceTree = "<group>"; };
 		36368883256FE8AF006F3FB2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MediaCropper.storyboard; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 		3636887A256FE8AE006F3FB2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				36368879256FE8AE006F3FB2 /* MediaCropper.app */,
+				36368879256FE8AE006F3FB2 /* MediaCropperDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,9 +114,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		36368878256FE8AE006F3FB2 /* MediaCropper */ = {
+		36368878256FE8AE006F3FB2 /* MediaCropperDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3636888D256FE8B1006F3FB2 /* Build configuration list for PBXNativeTarget "MediaCropper" */;
+			buildConfigurationList = 3636888D256FE8B1006F3FB2 /* Build configuration list for PBXNativeTarget "MediaCropperDemo" */;
 			buildPhases = (
 				36368875256FE8AE006F3FB2 /* Sources */,
 				36368876256FE8AE006F3FB2 /* Frameworks */,
@@ -126,9 +126,9 @@
 			);
 			dependencies = (
 			);
-			name = MediaCropper;
+			name = MediaCropperDemo;
 			productName = MediaCropper;
-			productReference = 36368879256FE8AE006F3FB2 /* MediaCropper.app */;
+			productReference = 36368879256FE8AE006F3FB2 /* MediaCropperDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -145,7 +145,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 36368874256FE8AE006F3FB2 /* Build configuration list for PBXProject "MediaCropper" */;
+			buildConfigurationList = 36368874256FE8AE006F3FB2 /* Build configuration list for PBXProject "MediaCropperDemo" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -158,7 +158,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				36368878256FE8AE006F3FB2 /* MediaCropper */,
+				36368878256FE8AE006F3FB2 /* MediaCropperDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -345,7 +345,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.elevenlife.admin.MediaCropper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.melikyan.MediaCropperDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -364,7 +364,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.elevenlife.admin.MediaCropper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.melikyan.MediaCropperDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -374,7 +374,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		36368874256FE8AE006F3FB2 /* Build configuration list for PBXProject "MediaCropper" */ = {
+		36368874256FE8AE006F3FB2 /* Build configuration list for PBXProject "MediaCropperDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3636888B256FE8B1006F3FB2 /* Debug */,
@@ -383,7 +383,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3636888D256FE8B1006F3FB2 /* Build configuration list for PBXNativeTarget "MediaCropper" */ = {
+		3636888D256FE8B1006F3FB2 /* Build configuration list for PBXNativeTarget "MediaCropperDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3636888E256FE8B1006F3FB2 /* Debug */,
