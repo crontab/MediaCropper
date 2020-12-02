@@ -65,7 +65,12 @@ open class MediaCropperController: UIImagePickerController, UIImagePickerControl
 							pushViewController(cropper, animated: true)
 							return
 						}
-						mediaCropperDelegate?.mediaCropperDidSelectItem(.image(image: image))
+						else {
+							dismiss(animated: true) {
+								self.mediaCropperDelegate?.mediaCropperDidSelectItem(.image(image: image))
+							}
+							return
+						}
 					}
 
 				case .video:
@@ -76,7 +81,12 @@ open class MediaCropperController: UIImagePickerController, UIImagePickerControl
 						present(navigator, animated: true)
 						return
 					}
-					mediaCropperDelegate?.mediaCropperDidSelectItem(.video(tempVideoURL: url))
+					else {
+						dismiss(animated: true) {
+							self.mediaCropperDelegate?.mediaCropperDidSelectItem(.video(tempVideoURL: url))
+						}
+						return
+					}
 			}
 		}
 

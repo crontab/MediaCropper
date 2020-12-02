@@ -131,20 +131,22 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 				isProcessing = false
 				switch result {
 					case .success(let tempURL):
-						delegate?.mediaCropperDidSelectItem(.video(tempVideoURL: tempURL))
 						videoExportSessionDidFinish(withError: nil, inputURL: videoURL)
-						cropper?.presentingViewController?.dismiss(animated: true)
+						cropper?.presentingViewController?.dismiss(animated: true) {
+							self.delegate?.mediaCropperDidSelectItem(.video(tempVideoURL: tempURL))
+						}
 					case .failure(let error):
+						videoExportSessionDidFinish(withError: error, inputURL: videoURL)
 						if !(error is CropperCancelledError) {
 							alert(error)
 						}
-						videoExportSessionDidFinish(withError: error, inputURL: videoURL)
 				}
 			}
 		}
 		else if let croppedImage = imageView.image?.cropped(at: imageView.effectiveCropFrame(with: scrollView)) {
-			delegate?.mediaCropperDidSelectItem(.image(image: croppedImage))
-			cropper?.dismiss(animated: true)
+			cropper?.dismiss(animated: true) {
+				self.delegate?.mediaCropperDidSelectItem(.image(image: croppedImage))
+			}
 		}
 	}
 
