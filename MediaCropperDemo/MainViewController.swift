@@ -16,10 +16,12 @@ class MainViewController: UIViewController, MediaCropperDelegate {
 
 
 	@IBAction private func pickSquareImageAction(_ sender: Any) {
-		MediaCropperController.launch(from: self, delegate: self) { (config) in
+		let cropper = MediaCropperController.instantiate { (config) in
 			// config.cropRatio = 0.32
 			config.ovalCropMask = true
 		}
+		cropper.mediaCropperDelegate = self
+		present(cropper, animated: true)
 	}
 
 

@@ -14,7 +14,7 @@ public protocol MediaCropperDelegate: class {
 }
 
 
-public class MediaCropperController: UIImagePickerController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+open class MediaCropperController: UIImagePickerController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
 	// Default export format is 1920x1080 HEVC if present (newer devices), or H.264 on older devices
 	static let optimalVideoExportPreset: String = { AVAssetExportSession.allExportPresets().first(where: { $0 == AVAssetExportPresetHEVC1920x1080 }) ?? AVAssetExportPreset1920x1080 }()
@@ -38,18 +38,17 @@ public class MediaCropperController: UIImagePickerController, UIImagePickerContr
 
 
 	let config = Config()
-	weak var mediaCropperDelegate: MediaCropperDelegate?
+	public weak var mediaCropperDelegate: MediaCropperDelegate?
 
 
-	public static func launch(from parent: UIViewController, delegate: MediaCropperDelegate, configure: (Config) -> Void) {
-		let this = MediaCropperController()
+	public static func instantiate(configure: (Config) -> Void) -> Self {
+		let this = Self()
 		configure(this.config)
 		this.sourceType = .photoLibrary
 		this.mediaTypes = this.config.types.map { $0.rawValue }
 		this.videoExportPreset = this.config.libraryVideoExportPreset // passthrough if cropping is required
 		this.delegate = this
-		this.mediaCropperDelegate = delegate
-		parent.present(this, animated: true)
+		return this
 	}
 
 
