@@ -63,6 +63,13 @@ open class MediaCropperController: UIImagePickerController, UIImagePickerControl
 	}
 
 
+	deinit {
+		#if DEBUG
+		print("MediaCropperController: deinit")
+		#endif
+	}
+
+
 	public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 
 		if let url = (info[.mediaURL] ?? info[.imageURL]) as? URL, let type = PickerMediaType.asSuperclassOf(rawValue: info[.mediaType] as? String) {

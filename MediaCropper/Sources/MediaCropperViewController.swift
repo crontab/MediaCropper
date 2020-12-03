@@ -23,6 +23,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 	@IBOutlet private var bottomMask: UIView!
 
 	@IBOutlet private var processingOverlay: UIView!
+	@IBOutlet private var progressView: UIProgressView!
 
 	private weak var cropper: MediaCropperController?
 	private var item: MediaCropperController.Item!
@@ -41,6 +42,13 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 			this.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: this, action: #selector(cancelAction(_:)))
 		}
 		return this
+	}
+
+
+	deinit {
+		#if DEBUG
+		print("MediaCropperViewController: deinit")
+		#endif
 	}
 
 
@@ -97,7 +105,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 					videoView.play()
 				}
 				else {
-					setCropViewHeight(1)
+					setCropViewHeight(1) // fit the entire video as we are not cropping in this case
 					videoView.screenCropRect = cropView.frame
 					isMaskEnabled = false
 					navigationItem.rightBarButtonItem = nil
@@ -142,6 +150,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 		set {
 			processingOverlay.isHidden = !newValue
 			cropButton?.isEnabled = !newValue
+			NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(progressProc), object: nil)
 		}
 	}
 
@@ -168,6 +177,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 
 
 	private func startVideoExport(videoURL: URL, cropFrame: CGRect?) {
+		progressView.progress = 0
 		isProcessing = true
 		videoExportSession = AVAsset(url: videoURL).exportToFile(withCropFrame: cropFrame, preset: config.videoExportPreset) { [self] (result) in
 			isProcessing = false
@@ -183,6 +193,18 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 						alert(error)
 					}
 			}
+		}
+		progressProc()
+	}
+
+
+	@objc private func progressProc() {
+		if let session = videoExportSession {
+			progressView.setProgress(session.progress, animated: true)
+			perform(#selector(progressProc), with: nil, afterDelay: 1 / 30)
+		}
+		else {
+			progressView.progress = 1
 		}
 	}
 
