@@ -17,7 +17,7 @@
 		366519042577EC8900825E49 /* PickerMediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366518F42577EC8800825E49 /* PickerMediaType.swift */; };
 		366519052577EC8900825E49 /* MediaCropperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366518F52577EC8800825E49 /* MediaCropperViewController.swift */; };
 		366519122577ED2000825E49 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366519112577ED2000825E49 /* CoreServices.framework */; };
-		366519142577EE1800825E49 /* MediaCropper.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 366518FD2577EC8900825E49 /* MediaCropper.storyboard */; };
+		3665193A25791A0600825E49 /* MediaCropper.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3665193925791A0500825E49 /* MediaCropper.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +32,8 @@
 		366518F92577EC8900825E49 /* CroppingUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CroppingUtils.swift; sourceTree = "<group>"; };
 		366518FA2577EC8900825E49 /* GeometryUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometryUtils.swift; sourceTree = "<group>"; };
 		366518FB2577EC8900825E49 /* MediaCropperController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCropperController.swift; sourceTree = "<group>"; };
-		366518FC2577EC8900825E49 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MediaCropper.storyboard; sourceTree = "<group>"; };
 		366519112577ED2000825E49 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.0.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		3665193925791A0500825E49 /* MediaCropper.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MediaCropper.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +94,7 @@
 				366518F72577EC8800825E49 /* CroppingMaskView.swift */,
 				366518F52577EC8800825E49 /* MediaCropperViewController.swift */,
 				366518FB2577EC8900825E49 /* MediaCropperController.swift */,
-				366518FD2577EC8900825E49 /* MediaCropper.storyboard */,
+				3665193925791A0500825E49 /* MediaCropper.storyboard */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -150,7 +150,6 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 			);
 			mainGroup = 366518DB2577EB4E00825E49;
 			productRefGroup = 366518E62577EB4E00825E49 /* Products */;
@@ -167,7 +166,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				366519142577EE1800825E49 /* MediaCropper.storyboard in Resources */,
+				3665193A25791A0600825E49 /* MediaCropper.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,17 +189,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		366518FD2577EC8900825E49 /* MediaCropper.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				366518FC2577EC8900825E49 /* Base */,
-			);
-			name = MediaCropper.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		366518EB2577EB4E00825E49 /* Debug */ = {
