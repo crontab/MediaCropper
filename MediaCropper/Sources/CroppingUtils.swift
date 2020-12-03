@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 
 
-extension UIImage {
+public extension UIImage {
 
 	func cropped(at cropFrame: CGRect) -> UIImage? {
 		guard cropFrame.size.width > 0, cropFrame.size.height > 0 else {
@@ -25,12 +25,24 @@ extension UIImage {
 
 
 
-extension AVAsset {
+public extension AVAsset {
 
-	func croppedToFile(at cropFrame: CGRect, preset: String, completion: @escaping (Result<URL, Error>) -> Void) -> AVAssetExportSession? {
+	func thumbnail() -> UIImage {
+		let imgGenerator = AVAssetImageGenerator(asset: self)
+		imgGenerator.appliesPreferredTrackTransform = true
+		if let cgImage = try? imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil) {
+			return UIImage(cgImage: cgImage)
+		}
+		else {
+			return UIImage()
+		}
+	}
+
+
+	func exportToFile(withCropFrame cropFrame: CGRect?, preset: String, completion: @escaping (Result<URL, Error>) -> Void) -> AVAssetExportSession? {
 		switch videoComposition(withCropFrame: cropFrame) {
 			case .success(let composition):
-				return cropped(with: composition, preset: preset, completion: completion)
+				return export(with: composition, preset: preset, completion: completion)
 			case .failure(let error):
 				completion(.failure(error))
 				return nil
@@ -38,7 +50,7 @@ extension AVAsset {
 	}
 
 
-	private func cropped(with composition: AVVideoComposition, preset: String, completion: @escaping (Result<URL, Error>) -> Void) -> AVAssetExportSession? {
+	private func export(with composition: AVVideoComposition, preset: String, completion: @escaping (Result<URL, Error>) -> Void) -> AVAssetExportSession? {
 		guard let session = AVAssetExportSession(asset: self, presetName: preset) else {
 			completion(.failure(CropperError(message: "Codec not supported")))
 			return nil
@@ -66,24 +78,25 @@ extension AVAsset {
 	}
 
 
-	private func videoComposition(withCropFrame cropRect: CGRect) -> Result<AVVideoComposition, Error> {
+	private func videoComposition(withCropFrame cropRect: CGRect?) -> Result<AVVideoComposition, Error> {
 		guard let track = tracks(withMediaType: .video).first else {
 			return .failure(CropperError(message: "The file doesn't contain a video track"))
 		}
 
-		var transform = track.preferredTransform
-		transform.tx -= cropRect.origin.x
-		transform.ty -= cropRect.origin.y
-
-		let transformer = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
-		transformer.setTransform(transform, at: .zero)
-
+		let composition = AVMutableVideoComposition(propertiesOf: self)
 		let instruction = AVMutableVideoCompositionInstruction()
 		instruction.timeRange = CMTimeRange(start: .zero, duration: .positiveInfinity)
+
+		var transform = track.preferredTransform
+		if let cropRect = cropRect {
+			transform.tx -= cropRect.origin.x
+			transform.ty -= cropRect.origin.y
+			composition.renderSize = cropRect.size
+		}
+		let transformer = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
+		transformer.setTransform(transform, at: .zero)
 		instruction.layerInstructions = [transformer]
 
-		let composition = AVMutableVideoComposition(propertiesOf: self)
-		composition.renderSize = cropRect.size
 		composition.instructions = [instruction]
 
 		return .success(composition)

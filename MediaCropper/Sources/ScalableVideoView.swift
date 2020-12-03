@@ -94,8 +94,7 @@ class ScalableVideoView: UIView, ScalableViewProtocol {
 		guard let track = queuePlayer.currentItem?.asset.tracks(withMediaType: .video).first else {
 			return nil
 		}
-		let result = track.naturalSize.applying(track.preferredTransform)
-		return .init(width: abs(result.width), height: abs(result.height))
+		return track.naturalSize.applying(track.preferredTransform).absoluted
 	}
 
 

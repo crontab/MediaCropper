@@ -28,12 +28,23 @@ open class MediaCropperController: UIImagePickerController, UIImagePickerControl
 
 	public class Config {
 		public var types: [PickerMediaType] = [.image, .video]
-		public var cropRatio: CGFloat = 1
-		public var ovalCropMask: Bool = false
+		public var cropRatio: CGFloat = 1 // height to width ratio; or 0 for no cropping
+		public var cropPortraitOnly: Bool = false // even if cropping is enabled, landscape and square media should be passed through
+		public var ovalCropMask: Bool = false // for selfies
 		public var videoExportPreset: String = optimalVideoExportPreset
 
+
+		// Internal utilities
 		var requiresCropping: Bool { cropRatio > 0 }
 		var libraryVideoExportPreset: String { requiresCropping ? AVAssetExportPresetPassthrough : videoExportPreset }
+
+		func imageRequiresCropping(_ image: UIImage) -> Bool {
+			requiresCropping && (!cropPortraitOnly || image.size.isPortrait)
+		}
+
+		func videoRequiresCropping(_ videoURL: URL, naturalSize: CGSize) -> Bool {
+			requiresCropping && (!cropPortraitOnly || naturalSize.isPortrait)
+		}
 	}
 
 
@@ -60,7 +71,7 @@ open class MediaCropperController: UIImagePickerController, UIImagePickerControl
 
 				case .image:
 					if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
-						if config.requiresCropping {
+						if config.imageRequiresCropping(image) {
 							let cropper = MediaCropperViewController.instantiate(with: self, cancelButton: false, item: .image(image: image))
 							pushViewController(cropper, animated: true)
 							return
@@ -74,6 +85,7 @@ open class MediaCropperController: UIImagePickerController, UIImagePickerControl
 					}
 
 				case .video:
+					// If the video doesn't require cropping due to the cropPortraitOnly, it still needs to be passed to the next view controller for decoding since it was exported with the passthrough option.
 					if config.requiresCropping {
 						let cropper = MediaCropperViewController.instantiate(with: self, cancelButton: true, item: .video(tempVideoURL: url))
 						let navigator = UINavigationController(rootViewController: cropper)

@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Crop your media-->
+        <!--Media Cropper View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="MediaCropperViewController" id="BYZ-38-t0r" customClass="MediaCropperViewController" customModule="MediaCropper" customModuleProvider="target" sceneMemberID="viewController">
@@ -20,10 +20,10 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" maximumZoomScale="5" translatesAutoresizingMaskIntoConstraints="NO" id="Cgy-f4-HPn">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="568" translatesAutoresizingMaskIntoConstraints="NO" id="go6-ZE-hiK" customClass="ScalableImageView" customModule="MediaCropper" customModuleProvider="target">
+                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="568" translatesAutoresizingMaskIntoConstraints="NO" id="go6-ZE-hiK" customClass="ScalableImageView" customModule="MediaCropper" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                     </imageView>
-                                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="230" placeholderIntrinsicHeight="568" translatesAutoresizingMaskIntoConstraints="NO" id="FWD-JO-tZ9" customClass="ScalableVideoView" customModule="MediaCropper" customModuleProvider="target">
+                                    <view hidden="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="230" placeholderIntrinsicHeight="568" translatesAutoresizingMaskIntoConstraints="NO" id="FWD-JO-tZ9" customClass="ScalableVideoView" customModule="MediaCropper" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                     </view>
                                 </subviews>
@@ -43,6 +43,10 @@
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rk1-JT-klz">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                                 <subviews>
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qhM-jM-K81">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="164.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.55000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnA-4z-bwr" customClass="CroppingMaskView" customModule="MediaCropper" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="164.5" width="320" height="195"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -64,10 +68,6 @@
                                                 <color key="value" white="0.0" alpha="0.55000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
-                                    </view>
-                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qhM-jM-K81">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="164.5"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.55000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FYb-9e-9wu">
                                         <rect key="frame" x="0.0" y="359.5" width="320" height="164.5"/>
@@ -95,14 +95,14 @@
                                         <rect key="frame" x="0.0" y="464" width="320" height="60"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="Jgu-nM-VIn">
-                                                <rect key="frame" x="76" y="8" width="168" height="20"/>
+                                                <rect key="frame" x="106" y="8" width="108.5" height="20"/>
                                                 <subviews>
                                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zvi-1T-DF0">
                                                         <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                                                         <color key="color" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </activityIndicatorView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cropping the video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3I-nz-EKq">
-                                                        <rect key="frame" x="26" y="0.0" width="142" height="20"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Processing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w3I-nz-EKq">
+                                                        <rect key="frame" x="26" y="0.0" width="82.5" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -147,7 +147,7 @@
                             <constraint firstItem="rk1-JT-klz" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="v0V-bh-guQ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Crop your media" id="ZIJ-51-M6w">
+                    <navigationItem key="navigationItem" id="ZIJ-51-M6w">
                         <barButtonItem key="rightBarButtonItem" title="Crop" style="done" id="5zS-DY-XKg">
                             <connections>
                                 <action selector="confirmAction:" destination="BYZ-38-t0r" id="6pX-cg-E29"/>
@@ -155,12 +155,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="bottomMask" destination="FYb-9e-9wu" id="Wiu-YY-VgB"/>
                         <outlet property="cropButton" destination="5zS-DY-XKg" id="DTF-lE-g2d"/>
                         <outlet property="cropView" destination="cnA-4z-bwr" id="Vx7-dL-nOA"/>
                         <outlet property="cropViewHeight" destination="iDm-ni-XPq" id="M2T-mg-des"/>
                         <outlet property="imageView" destination="go6-ZE-hiK" id="ZRM-BA-Td1"/>
                         <outlet property="processingOverlay" destination="yV6-pB-FGS" id="a3G-DM-yRY"/>
                         <outlet property="scrollView" destination="Cgy-f4-HPn" id="Tk3-db-W8a"/>
+                        <outlet property="topMask" destination="qhM-jM-K81" id="aCu-R2-WO0"/>
                         <outlet property="videoView" destination="FWD-JO-tZ9" id="dNn-tp-sWK"/>
                     </connections>
                 </viewController>

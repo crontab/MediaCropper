@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 import MediaCropper
 
 
@@ -17,8 +18,9 @@ class MainViewController: UIViewController, MediaCropperDelegate {
 
 	@IBAction private func pickSquareImageAction(_ sender: Any) {
 		let cropper = MediaCropperController.instantiate { (config) in
-			// config.cropRatio = 0.32
-			config.ovalCropMask = true
+			config.cropRatio = 1 // 0.32
+			config.cropPortraitOnly = true
+			// config.ovalCropMask = true
 		}
 		cropper.mediaCropperDelegate = self
 		present(cropper, animated: true)
@@ -29,8 +31,8 @@ class MainViewController: UIViewController, MediaCropperDelegate {
 		switch item {
 			case .image(let image):
 				imageView.image = image
-			case .video(_):
-				break
+			case .video(let videoURL):
+				imageView.image = AVURLAsset(url: videoURL).thumbnail()
 		}
 	}
 }

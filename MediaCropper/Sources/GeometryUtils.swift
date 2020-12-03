@@ -61,7 +61,11 @@ private extension CGRect {
 
 
 
-private extension CGSize {
+extension CGSize {
+
+	var absoluted: CGSize { CGSize(width: abs(width), height: abs(height)) }
+
+	var isPortrait: Bool { height > width }
 
 	func circumscribed(on rect: CGSize) -> CGSize {
 		let newHeight = height * rect.width / width
