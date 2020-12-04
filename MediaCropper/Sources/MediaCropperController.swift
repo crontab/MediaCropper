@@ -32,7 +32,8 @@ open class MediaCropperController: UIImagePickerController, UIImagePickerControl
 		public var cropPortraitOnly: Bool = false // even if cropping is enabled, landscape and square media should be passed through
 		public var ovalCropMask: Bool = false // for selfies
 		public var videoExportPreset: String = optimalVideoExportPreset
-
+		public var imageNoun: String = "the picture" // for titles and messages
+		public var videoNoun: String = "the video"
 
 		// Internal utilities
 		var requiresCropping: Bool { cropRatio > 0 }

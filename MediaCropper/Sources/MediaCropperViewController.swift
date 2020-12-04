@@ -95,6 +95,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 				imageView.image = image
 				setCropViewHeight(cropView.frame.width * config.cropRatio)
 				imageView.screenCropRect = cropView.frame
+				title = "Crop " + config.imageNoun
 
 			case .video(let tempVideoURL):
 				videoView.isHidden = false
@@ -103,6 +104,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 					setCropViewHeight(cropView.frame.width * config.cropRatio)
 					videoView.screenCropRect = cropView.frame
 					videoView.play()
+					title = "Crop " + config.videoNoun
 				}
 				else {
 					setCropViewHeight(1) // fit the entire video as we are not cropping in this case
@@ -110,6 +112,7 @@ class MediaCropperViewController: UIViewController, UIScrollViewDelegate {
 					isMaskEnabled = false
 					navigationItem.rightBarButtonItem = nil
 					startVideoExport(videoURL: tempVideoURL, cropFrame: nil)
+					title = "Processing " + config.videoNoun
 				}
 		}
 
